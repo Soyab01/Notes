@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mnoj Nehra - Rajasthan Exam Hub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #6366f1;
-            --accent: #f59e0b;
             --glass: rgba(255, 255, 255, 0.1);
+            --dark-nav: rgba(15, 23, 42, 0.95);
         }
 
         body {
@@ -20,189 +20,195 @@
             min-height: 100vh;
             user-select: none;
             overflow-x: hidden;
+            padding-bottom: 90px; /* Navigation ke liye jagah */
         }
 
-        /* 3D Glass Navigation */
+        /* Responsive Bottom Navigation */
         .bottom-nav {
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass);
-            padding: 10px 30px;
-            border-radius: 50px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-nav);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--glass);
             display: flex;
-            gap: 40px;
+            justify-content: space-around;
+            padding: 12px 0;
             z-index: 1000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav {
+                width: 400px;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 20px;
+                border-radius: 50px;
+                border: 1px solid var(--glass);
+            }
         }
 
         .nav-item {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
-            font-size: 1.2rem;
-            transition: 0.3s;
-            cursor: pointer;
             text-align: center;
-        }
-        .nav-item.active { color: var(--primary); transform: translateY(-5px); text-shadow: 0 0 10px var(--primary); }
-        .nav-item span { display: block; font-size: 0.7rem; font-weight: bold; }
-
-        /* 3D Category Pills */
-        .cat-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 10px 0; scrollbar-width: none; }
-        .cat-pill {
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 50px;
-            white-space: nowrap;
-            cursor: pointer;
+            flex: 1;
             transition: 0.3s;
+            cursor: pointer;
         }
-        .cat-pill.active { background: var(--primary); box-shadow: 0 0 15px var(--primary); }
 
-        /* Note Cards 3D */
+        .nav-item.active {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .nav-item i { font-size: 1.3rem; display: block; margin-bottom: 2px; }
+        .nav-item span { font-size: 0.75rem; font-weight: 500; }
+
+        /* Note Cards */
         .note-card {
             background: var(--glass);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: 0.4s;
-            transform-style: preserve-3d;
+            transition: 0.3s ease;
         }
-        .note-card:hover { transform: scale(1.02) rotateX(2deg); border-color: var(--primary); background: rgba(255,255,255,0.15); }
 
-        .note-icon { width: 50px; height: 50px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .note-card:hover { transform: translateY(-3px); border-color: var(--primary); }
 
-        .price-tag { color: #22c55e; font-weight: 800; font-size: 1.3rem; margin-right: 15px; }
+        .note-icon { 
+            width: 45px; height: 45px; 
+            background: var(--primary); 
+            border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.2rem; 
+        }
 
         .btn-buy {
             background: linear-gradient(135deg, #6366f1, #a855f7);
-            border: none; color: white; padding: 10px 20px; border-radius: 12px;
-            font-weight: bold; box-shadow: 0 4px 0 #3730a3; transition: 0.2s;
+            border: none; color: white; padding: 8px 18px; border-radius: 10px;
+            font-weight: bold; box-shadow: 0 3px 0 #3730a3; transition: 0.2s;
+            font-size: 0.9rem;
         }
-        .btn-buy:active { transform: translateY(4px); box-shadow: none; }
 
-        /* Full Screen Reader */
+        .btn-buy:active { transform: translateY(2px); box-shadow: none; }
+
+        .cat-scroll { 
+            display: flex; overflow-x: auto; gap: 10px; 
+            padding: 10px 0 20px 0; scrollbar-width: none; 
+        }
+        .cat-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-pill {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 16px;
+            border-radius: 50px;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .cat-pill.active { background: var(--primary); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+
+        /* Reader Overlay */
         #reader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000; }
-        iframe { width: 100%; height: 93vh; border: none; }
+        iframe { width: 100%; height: calc(100vh - 60px); border: none; }
 
-        .page { display: none; animation: fadeIn 0.5s ease; }
+        .page { display: none; animation: fadeIn 0.4s ease-out; }
         .page.active { display: block; }
-        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(8px);} to {opacity: 1; transform: translateY(0);} }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-<!-- Top Header -->
 <header class="container pt-4 d-flex justify-content-between align-items-center">
-    <h3 class="fw-bold"><span style="color:var(--primary)">RAJ</span> EXAM HUB</h3>
-    <select class="form-select w-auto bg-dark text-white border-secondary" id="langSelect" onchange="switchLang()">
-        <option value="hi">हिन्दी (Hindi)</option>
+    <h4 class="fw-bold mb-0"><span style="color:var(--primary)">RAJ</span> EXAM HUB</h4>
+    <select class="form-select w-auto bg-dark text-white border-secondary btn-sm" id="langSelect" onchange="switchLang()">
+        <option value="hi">हिन्दी</option>
         <option value="en">English</option>
     </select>
 </header>
 
-<!-- Main App Area -->
-<div class="container mt-4 mb-5 pb-5">
-
+<div class="container mt-4">
     <!-- HOME PAGE -->
     <div id="homePage" class="page active">
-        <h2 id="txt-welcome">नमस्ते, मनोज नेहरा</h2>
-        <p class="opacity-75" id="txt-sub">अपनी परीक्षा के नोट्स चुनें</p>
+        <h3 id="txt-welcome">नमस्ते, मनोज नेहरा</h3>
+        <p class="opacity-75 small" id="txt-sub">अपनी परीक्षा के नोट्स चुनें</p>
 
-        <!-- Categories -->
         <div class="cat-scroll">
             <div class="cat-pill active" onclick="filterCat('All', this)" id="cat-all">सभी (All)</div>
             <div class="cat-pill" onclick="filterCat('Police', this)">Raj Police</div>
             <div class="cat-pill" onclick="filterCat('Patwari', this)">Patwari</div>
             <div class="cat-pill" onclick="filterCat('LDC', this)">LDC / RSMSSB</div>
             <div class="cat-pill" onclick="filterCat('RAS', this)">RAS / PCS</div>
-            <div class="cat-pill" onclick="filterCat('REET', this)">REET</div>
         </div>
 
-        <div id="notesGrid" class="mt-4">
-            <!-- Notes will be loaded here by JS -->
-        </div>
+        <div id="notesGrid" class="mt-2"></div>
     </div>
 
-    <!-- MY PURCHASES PAGE -->
+    <!-- PURCHASES PAGE -->
     <div id="purchasePage" class="page">
-        <h2 id="txt-mypurchase">मेरी खरीदारी</h2>
-        <p class="opacity-75" id="txt-purchasesub">खरीदे गए नोट्स यहाँ देखें (Validity: 1 Year)</p>
-        <div id="myNotesGrid" class="mt-4">
-            <!-- Purchased notes appear here -->
-        </div>
+        <h3 id="txt-mypurchase">मेरी खरीदारी</h3>
+        <p class="opacity-75 small" id="txt-purchasesub">खरीदे गए नोट्स यहाँ देखें</p>
+        <div id="myNotesGrid" class="mt-3"></div>
     </div>
 
     <!-- PROFILE PAGE -->
     <div id="profilePage" class="page">
         <div class="text-center mt-5">
-            <div class="mx-auto bg-primary rounded-circle" style="width:100px; height:100px; line-height:100px; font-size:3rem;">MN</div>
-            <h2 class="mt-3">Mnoj Nehra</h2>
-            <p class="text-info">Premium Student Account</p>
-            <div class="mt-4 bg-white bg-opacity-10 p-4 rounded-4 text-start">
-                <p><i class="fas fa-phone me-2"></i> Support: +91 9XXXX XXXXX</p>
-                <p><i class="fas fa-envelope me-2"></i> Email: support@mnoj.com</p>
-                <button class="btn btn-outline-danger w-100 mt-3" onclick="location.reload()">Logout</button>
+            <div class="mx-auto bg-primary rounded-circle shadow" style="width:80px; height:80px; line-height:80px; font-size:2rem;">MN</div>
+            <h4 class="mt-3">Mnoj Nehra</h4>
+            <p class="text-info small">Premium Student Account</p>
+            <div class="mt-4 bg-white bg-opacity-10 p-4 rounded-4 text-start mx-auto" style="max-width: 400px;">
+                <p class="small"><i class="fas fa-phone-alt me-2 text-primary"></i> Support: +91 9XXXX XXXXX</p>
+                <p class="small mb-0"><i class="fas fa-envelope me-2 text-primary"></i> Email: support@mnoj.com</p>
             </div>
         </div>
     </div>
-
 </div>
 
-<!-- Navigation Bar -->
 <div class="bottom-nav">
     <div class="nav-item active" onclick="showPage('homePage', this)">
         <i class="fas fa-home"></i><span id="nav-home">Home</span>
     </div>
     <div class="nav-item" onclick="showPage('purchasePage', this)">
-        <i class="fas fa-book"></i><span id="nav-purchase">My Notes</span>
+        <i class="fas fa-book-reader"></i><span id="nav-purchase">My Notes</span>
     </div>
     <div class="nav-item" onclick="showPage('profilePage', this)">
-        <i class="fas fa-user"></i><span id="nav-profile">Profile</span>
+        <i class="fas fa-user-circle"></i><span id="nav-profile">Profile</span>
     </div>
 </div>
 
-<!-- Secure Reader -->
 <div id="reader">
-    <div class="p-3 d-flex justify-content-between bg-dark">
-        <span id="readerTitle">Secure Reader</span>
-        <button class="btn btn-danger btn-sm" onclick="closeReader()">Exit Reader X</button>
+    <div class="p-3 d-flex justify-content-between align-items-center bg-dark text-white">
+        <span class="small fw-bold" id="readerTitle">Secure Reader</span>
+        <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="closeReader()">Close X</button>
     </div>
     <iframe id="pdfFrame" src=""></iframe>
 </div>
 
-<!-- Razorpay Script -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <script>
-    // 1. All Notes Data
     const notesData = [
-        { id: 1, title_hi: "राजस्थान पुलिस (Rajasthan Police) - लक्ष्य", title_en: "Rajasthan Police Special Notes", category: "Police", price: 99, file: "raj. police.pdf" },
+        { id: 1, title_hi: "राजस्थान पुलिस - लक्ष्य नोट्स", title_en: "Raj Police Special Notes", category: "Police", price: 99, file: "raj. police.pdf" },
         { id: 2, title_hi: "कोटा सिटी गाइड (Kota City PDF)", title_en: "Kota City Complete Guide", category: "All", price: 49, file: "kota city.pdf" },
-        { id: 3, title_hi: "पटवारी (Patwari) - मुख्य परीक्षा नोट्स", title_en: "Patwari Main Exam Notes", category: "Patwari", price: 149, file: "patwari.pdf" },
-        { id: 4, title_hi: "LDC / लिपिक ग्रेड-II नोट्स", title_en: "LDC Grade-II Complete Notes", category: "LDC", price: 120, file: "ldc.pdf" },
-        { id: 5, title_hi: "RAS प्रीलिम्स - कला और संस्कृति", title_en: "RAS Prelims - Art & Culture", category: "RAS", price: 299, file: "ras_culture.pdf" }
+        { id: 3, title_hi: "पटवारी मुख्य परीक्षा नोट्स", title_en: "Patwari Main Exam Notes", category: "Patwari", price: 149, file: "patwari.pdf" },
+        { id: 4, title_hi: "LDC / लिपिक ग्रेड-II नोट्स", title_en: "LDC Grade-II Notes", category: "LDC", price: 120, file: "ldc.pdf" }
     ];
 
     const lang = {
-        hi: { welcome: "नमस्ते, मनोज नेहरा", sub: "अपनी परीक्षा के नोट्स चुनें", mypurchase: "मेरी खरीदारी", purchasesub: "खरीदे गए नोट्स यहाँ देखें", home: "होम", purchase: "खरीदारी", profile: "प्रोफाइल", buy: "खरीदें", open: "पढ़ें" },
-        en: { welcome: "Hello, Mnoj Nehra", sub: "Choose your exam notes", mypurchase: "My Purchases", purchasesub: "View your unlocked notes here", home: "Home", purchase: "My Notes", profile: "Profile", buy: "Buy Now", open: "Read Now" }
+        hi: { welcome: "नमस्ते, मनोज नेहरा", sub: "अपनी परीक्षा के नोट्स चुनें", mypurchase: "मेरी खरीदारी", purchasesub: "आपके अनलॉक किए गए नोट्स", home: "होम", purchase: "नोट्स", profile: "प्रोफाइल", buy: "खरीदें", open: "पढ़ें" },
+        en: { welcome: "Hello, Mnoj Nehra", sub: "Select your exam notes", mypurchase: "My Purchases", purchasesub: "Your unlocked notes", home: "Home", purchase: "My Notes", profile: "Profile", buy: "Buy", open: "Read" }
     };
 
-    // 2. Initial Setup
-    window.onload = () => {
-        renderNotes('All');
-        switchLang();
-    };
+    window.onload = () => { switchLang(); };
 
     function switchLang() {
         let l = document.getElementById('langSelect').value;
@@ -221,7 +227,6 @@
         let l = document.getElementById('langSelect').value;
         let grid = document.getElementById('notesGrid');
         grid.innerHTML = '';
-        
         notesData.filter(n => cat === 'All' || n.category === cat).forEach(n => {
             let isPaid = localStorage.getItem(n.file);
             grid.innerHTML += `
@@ -229,18 +234,17 @@
                     <div class="d-flex align-items-center">
                         <div class="note-icon"><i class="fas fa-file-pdf"></i></div>
                         <div class="ms-3">
-                            <h5 class="mb-0">${l === 'hi' ? n.title_hi : n.title_en}</h5>
-                            <small class="text-info">${n.category}</small>
+                            <h6 class="mb-0 fw-bold">${l === 'hi' ? n.title_hi : n.title_en}</h6>
+                            <small class="text-info" style="font-size:0.7rem">${n.category}</small>
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
-                        ${!isPaid ? `<span class="price-tag">₹${n.price}</span>` : ''}
+                        ${!isPaid ? `<span class="fw-bold text-success me-2">₹${n.price}</span>` : ''}
                         <button class="btn-buy" onclick="${isPaid ? `openReader('${n.file}')` : `payNow(${n.price}, '${n.file}')`}">
                             ${isPaid ? lang[l].open : lang[l].buy}
                         </button>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
     }
 
@@ -248,35 +252,25 @@
         let l = document.getElementById('langSelect').value;
         let grid = document.getElementById('myNotesGrid');
         grid.innerHTML = '';
-        let count = 0;
-
+        let has = false;
         notesData.forEach(n => {
             if(localStorage.getItem(n.file)) {
-                count++;
-                grid.innerHTML += `
-                    <div class="note-card">
-                        <div class="d-flex align-items-center">
-                            <div class="note-icon" style="background:#22c55e"><i class="fas fa-check"></i></div>
-                            <div class="ms-3">
-                                <h5 class="mb-0">${l === 'hi' ? n.title_hi : n.title_en}</h5>
-                                <small class="text-success">Purchased (1 Year Access)</small>
-                            </div>
-                        </div>
-                        <button class="btn-buy" onclick="openReader('${n.file}')">${lang[l].open}</button>
-                    </div>
-                `;
+                has = true;
+                grid.innerHTML += `<div class="note-card">
+                    <div class="d-flex align-items-center"><div class="note-icon" style="background:#22c55e"><i class="fas fa-check"></i></div>
+                    <div class="ms-3"><h6 class="mb-0 fw-bold">${l === 'hi' ? n.title_hi : n.title_en}</h6><small class="text-success" style="font-size:0.7rem">Purchased</small></div></div>
+                    <button class="btn-buy" onclick="openReader('${n.file}')">${lang[l].open}</button>
+                </div>`;
             }
         });
-        if(count === 0) grid.innerHTML = '<p class="text-center mt-5">No notes purchased yet.</p>';
+        if(!has) grid.innerHTML = '<p class="text-center opacity-50 mt-5 small">No notes purchased yet.</p>';
     }
 
-    // 3. Navigation Logic
     function showPage(pageId, el) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         el.classList.add('active');
-        if(pageId === 'purchasePage') renderMyPurchases();
     }
 
     function filterCat(cat, el) {
@@ -285,20 +279,11 @@
         renderNotes(cat);
     }
 
-    // 4. Payment & Security
     function payNow(amt, file) {
         var options = {
             "key": "rzp_test_RwizK12wU5cyN6",
-            "amount": amt * 100,
-            "currency": "INR",
-            "name": "Mnoj Nehra Notes",
-            "handler": function (response) {
-                localStorage.setItem(file, "paid");
-                alert("Payment Success!");
-                renderNotes('All');
-                renderMyPurchases();
-            },
-            "theme": { "color": "#6366f1" }
+            "amount": amt * 100, "currency": "INR", "name": "Mnoj Nehra Notes",
+            "handler": function (response) { localStorage.setItem(file, "paid"); location.reload(); }
         };
         new Razorpay(options).open();
     }
