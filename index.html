@@ -3,227 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExamHub 3D - Online Premium Notes</title>
-    
-    <!-- Design Libraries -->
+    <title>Mnoj Nehra Notes Store</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        /* 1. Theme and Background */
-        :root {
-            --glass: rgba(255, 255, 255, 0.12);
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --dark-bg: #0f172a;
-        }
-
-        body {
-            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
-            color: #ffffff;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            user-select: none; /* Text copy block karne ke liye */
-        }
-
-        /* 2. 3D Glassmorphism Cards */
-        .note-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            perspective: 1000px;
-        }
-
-        .note-card:hover {
-            transform: translateY(-10px) rotateX(5deg);
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-color: #6366f1;
-        }
-
-        /* 3. Category Buttons (Hindi/English Support) */
-        .cat-btn {
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            margin: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .cat-btn.active {
-            background: var(--primary-gradient);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
-        }
-
-        /* 4. Price & 3D Buttons */
-        .price-tag {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #22c55e;
-            margin-right: 15px;
-        }
-
-        .action-btn {
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 12px;
-            font-weight: bold;
-            box-shadow: 0 4px 0 #3730a3;
-            transition: 0.2s;
-        }
-        .action-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0 0 transparent;
-        }
-
-        /* 5. PDF Reader View */
-        #reader-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
-        }
+        body { background: radial-gradient(circle at top right, #1e1b4b, #0f172a); color: white; font-family: 'Poppins', sans-serif; min-height: 100vh; user-select: none; }
+        .note-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .note-card:hover { transform: translateY(-5px); border-color: #6366f1; }
+        #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
         iframe { width: 100%; height: 92vh; border: none; }
+        .btn-3d { background: linear-gradient(135deg, #6366f1, #a855f7); border: none; color: white; padding: 10px 20px; border-radius: 10px; font-weight: bold; box-shadow: 0 4px 0 #3730a3; }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Right Click Disable -->
+<body oncontextmenu="return false;">
 
-<!-- Header & Language Switcher -->
-<header class="p-4 d-flex justify-content-between align-items-center">
-    <h2 class="fw-bold"><i class="fas fa-graduation-cap"></i> EXAM<span class="text-info">HUB</span></h2>
-    <select class="form-select w-auto bg-dark text-white border-secondary" id="langSelect" onchange="changeLanguage()">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-    </select>
+<header class="p-4 text-center">
+    <h2 class="fw-bold">MNOJ <span class="text-info">NEHRA</span> NOTES</h2>
+    <p class="opacity-75">Secure Access • 1 Year Validity</p>
 </header>
 
-<div class="container text-center mt-3">
-    <h1 id="mainTitle" class="display-5 fw-bold">Premium Exam Notes</h1>
-    <p id="mainSub" class="opacity-75">Secure Online Access • 1 Year Validity</p>
-    
-    <!-- Category Filter -->
-    <div class="my-4 d-flex justify-content-center flex-wrap">
-        <button class="cat-btn active" onclick="filterNotes('all')" id="btnAll">All Exams</button>
-        <button class="cat-btn" onclick="filterNotes('upsc')">UPSC</button>
-        <button class="cat-btn" onclick="filterNotes('ssc')">SSC / GD</button>
-        <button class="cat-btn" onclick="filterNotes('railway')">Railway</button>
+<div class="container mt-4">
+    <!-- Note 1: Kota City -->
+    <div class="note-card">
+        <div>
+            <h4 class="mb-0">Kota City Guide/Notes</h4>
+            <small class="text-info">Validity: 1 Year</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="fw-bold text-success fs-4">₹99</span>
+            <button class="btn-3d" id="btn1" onclick="handlePayment(99, 'kota city', 'btn1')">Buy & Read</button>
+        </div>
+    </div>
+
+    <!-- Note 2: Raj Police -->
+    <div class="note-card">
+        <div>
+            <h4 class="mb-0">Rajasthan Police Special Notes</h4>
+            <small class="text-info">Validity: 1 Year</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="fw-bold text-success fs-4">₹149</span>
+            <button class="btn-3d" id="btn2" onclick="handlePayment(149, 'raj. police', 'btn2')">Buy & Read</button>
+        </div>
     </div>
 </div>
 
-<!-- Notes List -->
-<div class="container mt-5" id="notesContainer">
-    
-    <!-- Note Item 1 (UPSC) -->
-    <div class="note-card" data-category="upsc">
-        <div class="d-flex align-items-center">
-            <div class="me-4 text-primary fs-1"><i class="fas fa-book-atlas"></i></div>
-            <div class="text-start">
-                <h4 class="mb-0">Indian Polity (M. Laxmikanth Essence)</h4>
-                <small class="text-info" id="valTxt1">Validity: 1 Year</small>
-            </div>
-        </div>
-        <div class="d-flex align-items-center">
-            <span class="price-tag">₹199</span>
-            <button class="action-btn" id="btn1" onclick="handlePurchase(199, 'polity_notes', 'btn1')">Buy & Read</button>
-        </div>
-    </div>
-
-    <!-- Note Item 2 (SSC) -->
-    <div class="note-card" data-category="ssc">
-        <div class="d-flex align-items-center">
-            <div class="me-4 text-warning fs-1"><i class="fas fa-calculator"></i></div>
-            <div class="text-start">
-                <h4 class="mb-0">Advanced Maths - Formula Book</h4>
-                <small class="text-info" id="valTxt2">Validity: 1 Year</small>
-            </div>
-        </div>
-        <div class="d-flex align-items-center">
-            <span class="price-tag">₹99</span>
-            <button class="action-btn" id="btn2" onclick="handlePurchase(99, 'maths_formulas', 'btn2')">Buy & Read</button>
-        </div>
-    </div>
-
-</div>
-
-<!-- Secure Full-Screen Reader -->
+<!-- Reader -->
 <div id="reader-overlay">
-    <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
-        <h5 id="readingTitle">Secure Reader Mode</h5>
+    <div class="p-2 bg-dark d-flex justify-content-between">
+        <span>Secure Reader Mode</span>
         <button class="btn btn-danger btn-sm" onclick="closeReader()">Close X</button>
     </div>
     <iframe id="pdfViewer" src=""></iframe>
 </div>
 
-<!-- Scripts -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <script>
-    // 1. Language Data Dictionary
-    const langData = {
-        en: {
-            title: "Premium Exam Notes",
-            sub: "Secure Online Access • 1 Year Validity",
-            all: "All Exams",
-            buy: "Buy & Read",
-            open: "Open Reader"
-        },
-        hi: {
-            title: "प्रीमियम परीक्षा नोट्स",
-            sub: "सुरक्षित ऑनलाइन एक्सेस • 1 साल की वैधता",
-            all: "सभी परीक्षाएं",
-            buy: "खरीदें और पढ़ें",
-            open: "रीडर खोलें"
-        }
-    };
-
-    function changeLanguage() {
-        const l = document.getElementById('langSelect').value;
-        document.getElementById('mainTitle').innerText = langData[l].title;
-        document.getElementById('mainSub').innerText = langData[l].sub;
-        document.getElementById('btnAll').innerText = langData[l].all;
-        updateButtons();
-    }
-
-    // 2. Access Management (1 Year Validity)
+    // Access Check
     window.onload = function() {
-        checkAccess('polity_notes', 'btn1');
-        checkAccess('maths_formulas', 'btn2');
-        changeLanguage(); // Initial lang set
+        checkAccess('kota city', 'btn1');
+        checkAccess('raj. police', 'btn2');
     };
 
-    function checkAccess(fileCode, btnId) {
-        const expiry = localStorage.getItem(fileCode);
-        if (expiry && new Date().getTime() < expiry) {
-            markAsPaid(btnId, fileCode);
+    function checkAccess(file, btnId) {
+        if(localStorage.getItem(file)) {
+            let btn = document.getElementById(btnId);
+            btn.innerText = "Open Reader";
+            btn.style.background = "green";
+            btn.onclick = () => openReader(file);
         }
     }
 
-    // 3. Razorpay Payment
-    function handlePurchase(amt, fileCode, btnId) {
+    function handlePayment(amt, file, btnId) {
         var options = {
-            "key": "rzp_test_RwizK12wU5cyN6", // API KEY
+            "key": "rzp_test_RwizK12wU5cyN6",
             "amount": amt * 100,
             "currency": "INR",
-            "name": "ExamHub Premium",
-            "description": "Access for 1 Year",
+            "name": "Mnoj Nehra Store",
             "handler": function (response) {
-                // Payment Success: Save 1 Year Expiry
-                const expiryTime = new Date().getTime() + (365 * 24 * 60 * 60 * 1000);
-                localStorage.setItem(fileCode, expiryTime);
-                markAsPaid(btnId, fileCode);
-                openReader(fileCode);
+                localStorage.setItem(file, "paid");
+                location.reload();
             },
             "theme": { "color": "#6366f1" }
         };
@@ -231,53 +90,16 @@
         rzp.open();
     }
 
-    function markAsPaid(btnId, fileCode) {
-        const btn = document.getElementById(btnId);
-        const l = document.getElementById('langSelect').value;
-        btn.innerText = langData[l].open;
-        btn.style.background = "linear-gradient(135deg, #22c55e 0%, #16a34a 100%)";
-        btn.style.boxShadow = "0 4px 0 #15803d";
-        btn.onclick = () => openReader(fileCode);
-    }
-
-    // 4. Secure Reader (GitHub Path)
-    function openReader(fileCode) {
+    function openReader(file) {
         document.getElementById('reader-overlay').style.display = 'block';
-        // GitHub Pages PDF path construction
-        const pdfUrl = window.location.href.split('index.html')[0] + 'notes/' + fileCode + '.pdf';
+        // Kyunki PDFs root mein hain, path seedha rahega
+        let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file) + '.pdf';
         document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
     }
 
     function closeReader() {
         document.getElementById('reader-overlay').style.display = 'none';
         document.getElementById('pdfViewer').src = "";
-    }
-
-    // 5. Category Filter Logic
-    function filterNotes(category) {
-        // Update Button Styles
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-
-        const cards = document.querySelectorAll('.note-card');
-        cards.forEach(card => {
-            if (category === 'all' || card.getAttribute('data-category') === category) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    function updateButtons() {
-        const l = document.getElementById('langSelect').value;
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            if (btn.innerText.includes("Open") || btn.innerText.includes("खोलें")) {
-                btn.innerText = langData[l].open;
-            } else {
-                btn.innerText = langData[l].buy;
-            }
-        });
     }
 </script>
 </body>
