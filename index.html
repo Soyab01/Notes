@@ -5,124 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Raj Exam Hub | Premium 3D Hub</title>
     
-    <!-- External CSS -->
+    <!-- Design Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --glass: rgba(255, 255, 255, 0.08);
-            --dark-bg: #0f172a;
-        }
-
-        body {
-            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
-            color: #f8fafc;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 120px;
-            user-select: none;
-        }
-
-        /* --- UI Elements --- */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 25px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transition: 0.3s;
-        }
-
-        .note-card { display: flex; align-items: center; justify-content: space-between; transition: 0.4s; }
-        .note-card:hover { transform: translateY(-5px); border-color: var(--primary); }
-
-        .icon-3d {
-            width: 50px; height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; box-shadow: 0 8px 15px rgba(99, 102, 241, 0.3);
-            flex-shrink: 0;
-        }
-
-        /* --- Detailed Legal Content --- */
-        .policy-item {
-            background: rgba(0,0,0,0.2);
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .policy-item h4 { color: var(--primary); font-weight: 700; margin-bottom: 15px; }
-        .policy-item p { font-size: 0.85rem; line-height: 1.7; color: #cbd5e1; text-align: justify; }
-
-        /* --- Login Screen --- */
-        #auth-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark-bg); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .btn-google {
-            background: white; color: #333; border: none; padding: 12px 25px;
-            border-radius: 50px; font-weight: 700; display: flex; align-items: center;
-            gap: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        }
-
-        /* --- Navigation --- */
-        .nav-dock {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 35px; display: flex; justify-content: space-around;
-            padding: 12px 0; z-index: 4000; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-        }
+        :root { --primary: #6366f1; --secondary: #a855f7; --glass: rgba(255, 255, 255, 0.08); --dark-bg: #0f172a; }
+        body { background: radial-gradient(circle at top right, #1e1b4b, #0f172a); color: #f8fafc; font-family: 'Poppins', sans-serif; min-height: 100vh; padding-bottom: 120px; user-select: none; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        /* Auth Screen */
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        .btn-google { background: white; color: #333; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .reviewer-login { margin-top: 20px; font-size: 0.75rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%; }
+        .reviewer-login input { background: rgba(0,0,0,0.3); border: 1px solid #444; color: white; border-radius: 8px; padding: 8px; width: 100%; margin-bottom: 8px; font-size: 0.8rem; }
+        
+        /* Navigation & UI */
+        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 4000; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
         .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; }
-        .nav-link-3d.active { color: var(--primary); transform: translateY(-5px); text-shadow: 0 0 10px var(--primary); }
+        .nav-link-3d.active { color: var(--primary); transform: translateY(-5px); }
         .nav-link-3d i { font-size: 1.2rem; display: block; }
         .nav-link-3d span { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
 
-        /* --- Global Utils --- */
-        #main-app { display: none; }
         .page { display: none; }
         .page.active { display: block; animation: fadeInUp 0.4s ease-out; }
         @keyframes fadeInUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-        
-        .footer-links { margin-top: 30px; text-align: center; opacity: 0.5; font-size: 0.75rem; padding: 20px 0; border-top: 1px solid var(--glass); }
-        .footer-links a { color: white; margin: 0 8px; text-decoration: none; cursor: pointer; }
-
-        .btn-buy { background: var(--primary); border: none; color: white; padding: 8px 20px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; }
+        .policy-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; margin-bottom: 10px; font-size: 0.8rem; line-height: 1.6; }
+        .btn-buy { background: var(--primary); border: none; color: white; padding: 8px 18px; border-radius: 10px; font-weight: 700; }
         #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
         iframe { width: 100%; height: 93vh; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- 1. LOGIN SCREEN -->
+    <!-- 1. LOGIN SCREEN WITH REVIEWER BYPASS -->
     <div id="auth-screen">
         <div class="glass-card text-center" style="max-width: 400px; width: 90%;">
             <div class="mb-3" style="font-size: 3rem; color: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
             <h2 class="fw-800">RAJ HUB</h2>
-            <p class="small opacity-75 mb-4">Premium Rajasthan Exam Notes Library</p>
-            <button class="btn-google mx-auto mb-4" onclick="login()">
+            <p class="small opacity-75 mb-4">Premium Rajasthan Exam Notes Hub</p>
+            
+            <button class="btn-google mx-auto mb-3" onclick="login()">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg" width="22">
                 Sign in with Google
             </button>
-            <div class="footer-links" style="opacity: 0.8;">
-                <a onclick="showPage('legalPage')">Terms</a> | <a onclick="showPage('legalPage')">Privacy</a> | <a onclick="showPage('legalPage')">Refund Policy</a>
+
+            <!-- Razorpay Inspector ke liye Section -->
+            <div class="reviewer-login">
+                <p class="mb-2">Staff / Reviewer Login</p>
+                <input type="text" id="test-user" placeholder="Test Email (test@mnojnehra.com)">
+                <input type="password" id="test-pass" placeholder="Test Password">
+                <button class="btn btn-sm btn-outline-primary w-100" onclick="reviewerLogin()">Login as Reviewer</button>
             </div>
         </div>
     </div>
 
     <!-- 2. MAIN APP -->
-    <div id="main-app">
+    <div id="main-app" style="display:none;">
         <header class="container pt-4 d-flex justify-content-between align-items-center">
-            <h3 class="fw-bold mb-0">RAJ<span class="text-primary">HUB</span></h3>
+            <h4 class="fw-bold mb-0">RAJ<span class="text-primary">HUB</span></h4>
             <select class="form-select w-auto bg-dark text-white border-secondary btn-sm rounded-pill" id="langSelect" onchange="switchLang()">
                 <option value="hi">हिन्दी</option>
                 <option value="en">English</option>
@@ -130,78 +72,43 @@
         </header>
 
         <div class="container mt-2">
-            
-            <!-- HOME PAGE -->
+            <!-- Home -->
             <div id="homePage" class="page active">
-                <div class="py-4 text-center">
-                    <h2 class="fw-800" id="u-welcome">नमस्ते</h2>
-                    <p class="text-info small">Best Notes for Rajasthan Exams</p>
-                </div>
+                <div class="py-4 text-center"><h2 id="u-welcome">नमस्ते</h2></div>
                 <div id="notesGrid"></div>
-                <div class="footer-links">
-                    <a onclick="showPage('legalPage')">Terms & Conditions</a> | <a onclick="showPage('legalPage')">Privacy Policy</a> | <a onclick="showPage('legalPage')">Shipping</a>
-                </div>
             </div>
 
-            <!-- LIBRARY PAGE -->
+            <!-- Library -->
             <div id="purchasePage" class="page">
-                <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2><p class="text-success small">Purchased Notes</p></div>
+                <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2></div>
                 <div id="myNotesGrid"></div>
             </div>
 
-            <!-- PROFILE PAGE -->
+            <!-- Profile -->
             <div id="profilePage" class="page">
                 <div class="glass-card text-center mt-4">
-                    <img id="u-img" src="" class="rounded-circle mb-3" style="width: 80px; border: 3px solid var(--primary);">
-                    <h4 id="u-name">Student Name</h4>
-                    <p id="u-email" class="text-info small mb-4"></p>
-                    
-                    <div class="text-start bg-dark bg-opacity-50 p-3 rounded-4 mb-4">
-                        <p class="small mb-2" onclick="showPage('legalPage')"><i class="fas fa-file-contract me-2"></i> Terms & Conditions</p>
-                        <p class="small mb-2" onclick="showPage('legalPage')"><i class="fas fa-user-shield me-2"></i> Privacy Policy</p>
-                        <p class="small mb-2" onclick="showPage('legalPage')"><i class="fas fa-truck me-2"></i> Shipping Policy</p>
-                        <p class="small mb-0" onclick="showPage('legalPage')"><i class="fas fa-undo me-2"></i> Refunds & Cancellation</p>
-                    </div>
-
-                    <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="logout()">Logout</button>
+                    <img id="u-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle mb-3" style="width: 80px; border: 3px solid var(--primary);">
+                    <h4 id="u-name">Manoj Nehra</h4>
+                    <p id="u-email" class="text-info small mb-4">support@mnojnehra.com</p>
+                    <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="location.reload()">Logout</button>
                 </div>
             </div>
 
-            <!-- LEGAL POLICIES PAGE (RESTRUCTURED) -->
+            <!-- Legal -->
             <div id="legalPage" class="page">
-                <div class="py-4 text-center"><h2>Legal & Support</h2></div>
-                
+                <div class="py-3 text-center"><h5>Policies & Support</h5></div>
                 <div class="policy-item">
-                    <h4>1. Contact Us (संपर्क करें)</h4>
-                    <p><strong>Business Name:</strong> Mnoj Nehra Notes Hub<br>
-                    <strong>Proprietor:</strong> Manoj Nehra<br>
-                    <strong>Address:</strong> Ward No. 12, Rajasthan, India<br>
-                    <strong>Email:</strong> support@mnojnehra.com<br>
-                    <strong>Phone:</strong> +91 8769089527<br>
-                    <strong>Support Hours:</strong> Monday - Saturday (10 AM to 6 PM)</p>
+                    <h6>Contact Us</h6>
+                    <p>Mnoj Nehra Notes Hub<br>Phone: +91 8769089527<br>Email: support@mnojnehra.com</p>
                 </div>
-
                 <div class="policy-item">
-                    <h4>2. Terms and Conditions</h4>
-                    <p>Welcome to Raj Exam Hub. By using our website, you agree to these terms: 1. All notes are for personal use only. Sharing or reselling content is strictly prohibited. 2. Account sharing will result in an immediate ban. 3. Mnoj Nehra holds all intellectual property rights to the content provided on this platform. 4. We reserve the right to modify services without prior notice.</p>
+                    <h6>Terms & Conditions</h6>
+                    <p>Notes are for personal use only. reselling is prohibited.</p>
                 </div>
-
                 <div class="policy-item">
-                    <h4>3. Privacy Policy</h4>
-                    <p>We take your privacy seriously. 1. Data Collection: We collect your name, email, and profile photo via Google login. 2. Data Usage: Your data is used only to manage note access. 3. Third Parties: We do not sell your data to any external agencies. 4. Payment Security: All transactions are processed via Razorpay encrypted servers. Your card/UPI details are never stored by us.</p>
+                    <h6>Refund Policy</h6>
+                    <p>Digital goods are non-refundable once unlocked.</p>
                 </div>
-
-                <div class="policy-item">
-                    <h4>4. Shipping Policy</h4>
-                    <p>Raj Exam Hub deals exclusively in digital goods (PDF files). 1. Digital Delivery: Notes are unlocked instantly in the 'Library' section upon successful payment. 2. No Physical Delivery: We do not ship physical books or hard copies. 3. No Shipping Charges: Since delivery is electronic, there are no shipping fees.</p>
-                </div>
-
-                <div class="policy-item">
-                    <h4>5. Cancellation and Refunds</h4>
-                    <p>1. No Refund: Once a digital note is unlocked, we follow a strict no-refund policy. 2. Duplicate Payments: If you are charged twice, contact support with transaction IDs; refunds will be processed in 7 days. 3. Cancellation: Orders cannot be cancelled after the digital content is unlocked.</p>
-                </div>
-
-                <button class="btn btn-primary w-100 rounded-pill mb-5" onclick="showPage('homePage')">Back to Home</button>
             </div>
         </div>
 
@@ -214,16 +121,16 @@
         </div>
     </div>
 
-    <!-- Reader View -->
+    <!-- Secure Reader -->
     <div id="reader-overlay">
         <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-primary small">SECURE READER</span>
-            <button class="btn btn-danger btn-sm rounded-pill px-4" onclick="closeReader()">CLOSE X</button>
+            <span class="text-primary small fw-bold">SECURE READER</span>
+            <button class="btn btn-danger btn-sm" onclick="closeReader()">CLOSE X</button>
         </div>
         <iframe id="pdfViewer"></iframe>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -242,22 +149,30 @@
         const provider = new GoogleAuthProvider();
 
         window.login = () => { signInWithPopup(auth, provider).catch(e => alert(e.message)); };
-        window.logout = () => { signOut(auth).then(() => location.reload()); };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
-                document.getElementById('u-welcome').innerText = "नमस्ते, " + user.displayName.split(' ')[0];
                 document.getElementById('u-name').innerText = user.displayName;
                 document.getElementById('u-email').innerText = user.email;
                 document.getElementById('u-img').src = user.photoURL;
                 renderNotes();
-            } else {
-                document.getElementById('auth-screen').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
             }
         });
+
+        // Razorpay Tester Login Logic
+        window.reviewerLogin = function() {
+            const user = document.getElementById('test-user').value;
+            const pass = document.getElementById('test-pass').value;
+            if(user === "test@mnojnehra.com" && pass === "razorpay_test_2025") {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                renderNotes();
+            } else {
+                alert("Invalid Credentials for Reviewer");
+            }
+        }
     </script>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -274,41 +189,23 @@
             let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
             notesData.forEach(n => {
                 let paid = localStorage.getItem(n.file);
-                grid.innerHTML += `<div class="glass-card note-card mt-2">
-                    <div class="d-flex align-items-center"><div class="icon-3d"><i class="fas fa-file-pdf"></i></div>
-                    <div class="ms-3"><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat}</small></div></div>
+                grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between">
+                    <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat}</small></div>
                     <div class="d-flex align-items-center">${!paid ? `<span class="fw-bold text-success me-2">₹${n.price}</span>` : ''}
                     <button class="btn-buy" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button></div>
                 </div>`;
             });
         }
 
-        function renderMyPurchases() {
-            let grid = document.getElementById('myNotesGrid'); grid.innerHTML = '';
-            let count = 0;
-            notesData.forEach(n => {
-                if(localStorage.getItem(n.file)) {
-                    count++;
-                    grid.innerHTML += `<div class="glass-card note-card mt-2">
-                        <h6 class="mb-0 fw-bold">${n.hi}</h6>
-                        <button class="btn-buy" onclick="openReader('${n.file}')">पढ़ें</button>
-                    </div>`;
-                }
-            });
-            if(count === 0) grid.innerHTML = '<p class="text-center mt-5 opacity-50">No purchases found.</p>';
-        }
-
         function showPage(pId, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pId).classList.add('active');
-            if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
-            if(pId === 'purchasePage') renderMyPurchases();
+            document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); 
+            el.classList.add('active');
         }
 
         function payNow(amt, file) {
-            var options = {
-                "key": "rzp_test_RwizK12wU5cyN6", 
-                "amount": amt * 100, "currency": "INR", "name": "Raj Exam Hub",
+            var options = { "key": "rzp_test_RwizK12wU5cyN6", "amount": amt * 100, "name": "Raj Exam Hub",
                 "handler": function (response) { localStorage.setItem(file, "paid"); location.reload(); }
             };
             new Razorpay(options).open();
@@ -319,8 +216,7 @@
             let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file);
             document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
         }
-
-        function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; document.getElementById('pdfViewer').src = ""; }
+        function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; }
     </script>
 </body>
 </html>
