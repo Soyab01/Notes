@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Raj Exam Hub | Premium 3D Hub</title>
     
-    <!-- Design Libraries -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -13,56 +13,69 @@
     <style>
         :root { --primary: #6366f1; --secondary: #a855f7; --glass: rgba(255, 255, 255, 0.08); --dark-bg: #0f172a; }
         body { background: radial-gradient(circle at top right, #1e1b4b, #0f172a); color: #f8fafc; font-family: 'Poppins', sans-serif; min-height: 100vh; padding-bottom: 120px; user-select: none; }
-        .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         
+        /* 3D Glass UI */
+        .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .note-card { display: flex; align-items: center; justify-content: space-between; transition: 0.4s; }
+        .note-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+
         /* Auth Screen */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 5000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
         .btn-google { background: white; color: #333; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
-        .reviewer-login { margin-top: 20px; font-size: 0.75rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%; }
-        .reviewer-login input { background: rgba(0,0,0,0.3); border: 1px solid #444; color: white; border-radius: 8px; padding: 8px; width: 100%; margin-bottom: 8px; font-size: 0.8rem; }
         
-        /* Navigation & UI */
-        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 4000; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+        /* Navigation Dock */
+        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.1); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 4000; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
         .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; }
-        .nav-link-3d.active { color: var(--primary); transform: translateY(-5px); }
+        .nav-link-3d.active { color: var(--primary); transform: translateY(-5px); text-shadow: 0 0 10px var(--primary); }
         .nav-link-3d i { font-size: 1.2rem; display: block; }
         .nav-link-3d span { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
 
+        /* Long Form Policy Content */
+        .policy-page { display: none; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); line-height: 1.8; text-align: justify; }
+        .policy-page h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; margin-bottom: 30px; }
+        .policy-page h4 { color: white; margin-top: 35px; border-left: 5px solid var(--secondary); padding-left: 15px; background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 0 10px 10px 0; }
+        .policy-page p, .policy-page li { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 15px; }
+
+        /* Global Layout */
+        #main-app { display: none; }
         .page { display: none; }
         .page.active { display: block; animation: fadeInUp 0.4s ease-out; }
         @keyframes fadeInUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
-        .policy-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; margin-bottom: 10px; font-size: 0.8rem; line-height: 1.6; }
-        .btn-buy { background: var(--primary); border: none; color: white; padding: 8px 18px; border-radius: 10px; font-weight: 700; }
+
+        /* Footer Links (Mandatory for Razorpay Crawler) */
+        .footer-mandatory { text-align: center; padding: 20px; border-top: 1px solid var(--glass); margin-top: 40px; }
+        .footer-mandatory a { color: var(--primary); font-size: 0.75rem; text-decoration: none; margin: 0 10px; cursor: pointer; }
+
         #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
         iframe { width: 100%; height: 93vh; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- 1. LOGIN SCREEN WITH REVIEWER BYPASS -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="auth-screen">
-        <div class="glass-card text-center" style="max-width: 400px; width: 90%;">
+        <div class="glass-card text-center" style="max-width: 400px; width: 95%;">
             <div class="mb-3" style="font-size: 3rem; color: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
             <h2 class="fw-800">RAJ HUB</h2>
-            <p class="small opacity-75 mb-4">Premium Rajasthan Exam Notes Hub</p>
-            
-            <button class="btn-google mx-auto mb-3" onclick="login()">
+            <p class="small opacity-75 mb-4">Mnoj Nehra Notes Store</p>
+            <button class="btn-google mx-auto mb-4" onclick="login()">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg" width="22">
                 Sign in with Google
             </button>
-
-            <!-- Razorpay Inspector ke liye Section -->
-            <div class="reviewer-login">
-                <p class="mb-2">Staff / Reviewer Login</p>
-                <input type="text" id="test-user" placeholder="Test Email (test@mnojnehra.com)">
-                <input type="password" id="test-pass" placeholder="Test Password">
-                <button class="btn btn-sm btn-outline-primary w-100" onclick="reviewerLogin()">Login as Reviewer</button>
+            <div style="font-size: 0.7rem; opacity: 0.6;">
+                By signing in, you agree to our <a onclick="showPage('privacyPage')" class="text-primary">Privacy Policy</a>
             </div>
+        </div>
+        <!-- Mandatory Links on Login Screen -->
+        <div class="mt-4">
+            <a onclick="showPage('privacyPage')" class="text-white-50 mx-2 small">Privacy</a>
+            <a onclick="showPage('termsPage')" class="text-white-50 mx-2 small">Terms</a>
+            <a onclick="showPage('refundPage')" class="text-white-50 mx-2 small">Refunds</a>
         </div>
     </div>
 
     <!-- 2. MAIN APP -->
-    <div id="main-app" style="display:none;">
+    <div id="main-app">
         <header class="container pt-4 d-flex justify-content-between align-items-center">
             <h4 class="fw-bold mb-0">RAJ<span class="text-primary">HUB</span></h4>
             <select class="form-select w-auto bg-dark text-white border-secondary btn-sm rounded-pill" id="langSelect" onchange="switchLang()">
@@ -72,65 +85,151 @@
         </header>
 
         <div class="container mt-2">
-            <!-- Home -->
+            
+            <!-- HOME PAGE -->
             <div id="homePage" class="page active">
-                <div class="py-4 text-center"><h2 id="u-welcome">नमस्ते</h2></div>
+                <div class="py-4 text-center"><h2 class="fw-800">नमस्ते, स्टूडेंट</h2></div>
                 <div id="notesGrid"></div>
+                
+                <!-- Mandatory Footer for Razorpay Crawler -->
+                <div class="footer-mandatory">
+                    <a onclick="showPage('termsPage')">Terms & Conditions</a> | 
+                    <a onclick="showPage('privacyPage')">Privacy Policy</a> | 
+                    <a onclick="showPage('shippingPage')">Shipping Policy</a> | 
+                    <a onclick="showPage('refundPage')">Cancellation & Refund Policy</a> | 
+                    <a onclick="showPage('contactPage')">Contact Us</a>
+                </div>
             </div>
 
-            <!-- Library -->
+            <!-- LIBRARY PAGE -->
             <div id="purchasePage" class="page">
                 <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2></div>
                 <div id="myNotesGrid"></div>
             </div>
 
-            <!-- Profile -->
+            <!-- PROFILE PAGE -->
             <div id="profilePage" class="page">
                 <div class="glass-card text-center mt-4">
-                    <img id="u-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle mb-3" style="width: 80px; border: 3px solid var(--primary);">
-                    <h4 id="u-name">Manoj Nehra</h4>
-                    <p id="u-email" class="text-info small mb-4">support@mnojnehra.com</p>
-                    <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="location.reload()">Logout</button>
+                    <img id="u-img" src="" class="rounded-circle mb-3" style="width: 70px; border: 3px solid var(--primary);">
+                    <h5 id="u-name" class="mb-4">Student Name</h5>
+                    <div class="text-start mb-4">
+                        <button class="btn btn-sm text-white w-100 text-start border-bottom py-3" onclick="showPage('contactPage')"><i class="fas fa-headset me-3"></i> Contact Us</button>
+                        <button class="btn btn-sm text-white w-100 text-start border-bottom py-3" onclick="showPage('privacyPage')"><i class="fas fa-user-shield me-3"></i> Privacy Policy</button>
+                        <button class="btn btn-sm text-white w-100 text-start border-bottom py-3" onclick="showPage('refundPage')"><i class="fas fa-undo me-3"></i> Refund Policy</button>
+                    </div>
+                    <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="logout()">Logout</button>
                 </div>
             </div>
 
-            <!-- Legal -->
-            <div id="legalPage" class="page">
-                <div class="py-3 text-center"><h5>Policies & Support</h5></div>
-                <div class="policy-item">
-                    <h6>Contact Us</h6>
-                    <p>Mnoj Nehra Notes Hub<br>Phone: +91 8769089527<br>Email: support@mnojnehra.com</p>
-                </div>
-                <div class="policy-item">
-                    <h6>Terms & Conditions</h6>
-                    <p>Notes are for personal use only. reselling is prohibited.</p>
-                </div>
-                <div class="policy-item">
-                    <h6>Refund Policy</h6>
-                    <p>Digital goods are non-refundable once unlocked.</p>
-                </div>
+            <!-- 1. PRIVACY POLICY PAGE (1200+ Words) -->
+            <div id="privacyPage" class="page policy-page">
+                <h2>Privacy Policy</h2>
+                <p><strong>Last Updated: December 27, 2025</strong></p>
+                <p>Welcome to Raj Exam Hub, operated by Manoj Nehra. We value the privacy of our students and users. This Privacy Policy describes how we collect, use, and handle your information when you use our website and digital notes services. By using our platform, you agree to the collection and use of information in accordance with this policy.</p>
+                
+                <h4>1. Information We Collect</h4>
+                <p>We collect personal information that you voluntarily provide to us when you register on the Site. This information is primarily obtained through Google Authentication. The personal data we collect includes: Your Name, Email Address, Profile Picture, and Google ID. We also collect billing information through our payment processor, Razorpay. This includes your mobile number (+91 8769089527 is used for support), payment method details, and transaction history.</p>
+                
+                <h4>2. Log Data and Tracking</h4>
+                <p>When you visit our Site, our servers may automatically log the standard data provided by your web browser. It may include your computer’s Internet Protocol (IP) address, your browser type and version, the pages you visit, the time and date of your visit, the time spent on each page, and other details. We also use cookies to maintain your login session and enhance your experience on our 3D dashboard.</p>
+
+                <h4>3. Use of Your Personal Data</h4>
+                <p>Mnoj Nehra Notes Hub uses the collected data for various purposes: To provide and maintain our Service, including to monitor the usage of our Service. To manage your Account: to manage your registration as a user of the Service. The Personal Data you provide can give you access to different functionalities of the Service that are available to you as a registered user. For the performance of a contract: the development, compliance and undertaking of the purchase contract for the notes you have purchased.</p>
+
+                <h4>4. Data Security and Third-Party Disclosure</h4>
+                <p>The security of your data is important to us. We implement a variety of security measures to maintain the safety of your personal information. All payment transactions are processed through a gateway provider (Razorpay) and are not stored or processed on our servers. We do not sell, trade, or otherwise transfer your personally identifiable information to outside parties. This does not include trusted third parties who assist us in operating our website, conducting our business, or serving our users.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
             </div>
+
+            <!-- 2. SHIPPING POLICY (Digital Delivery) -->
+            <div id="shippingPage" class="page policy-page">
+                <h2>Shipping & Delivery Policy</h2>
+                <p>Welcome to Raj Exam Hub. Please read this Shipping Policy carefully before purchasing any digital notes.</p>
+                
+                <h4>1. Digital Goods Only</h4>
+                <p>Our business, operated by Manoj Nehra, deals exclusively in non-tangible, digital goods. These consist of educational notes provided in PDF format. We do not manufacture, stock, or ship any physical books, hard copies, or tangible materials to your physical address. As such, there is no physical shipping involved in any transaction on this website.</p>
+                
+                <h4>2. Delivery Method</h4>
+                <p>All notes purchased on this platform are delivered via "Instant Digital Access." Upon successful completion of your payment through Razorpay, our system automatically verifies the transaction and grants you immediate access to the purchased material. You will not receive any physical package or email with a download link.</p>
+
+                <h4>3. Access Timeline</h4>
+                <p>Fulfillment is instantaneous. Once the payment status is marked as "Success" in our system, you can find your unlocked notes in the "Library" or "My Notes" section of the dashboard. Your access will remain valid for 365 days from the date of purchase.</p>
+
+                <h4>4. Troubleshooting Delivery</h4>
+                <p>If you experience any delay in the unlocking of your notes after a successful payment, please try the following: 1. Refresh the web page. 2. Log out and log back in. 3. Check if the payment was actually deducted from your bank. If the notes are still not visible, please contact our support team at +91 8769089527 with your transaction ID.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            </div>
+
+            <!-- 3. REFUND & CANCELLATION POLICY -->
+            <div id="refundPage" class="page policy-page">
+                <h2>Cancellation & Refund Policy</h2>
+                <p>At Raj Exam Hub, we aim to provide high-quality study material for Rajasthan exams. Since we offer digital products, our refund policy is designed accordingly.</p>
+                
+                <h4>1. Strict No-Refund Policy</h4>
+                <p>Because the products we sell are digital PDFs that are accessible immediately after purchase, we follow a **Strict No-Refund Policy**. Once you have paid for a note and it is unlocked in your library, the purchase is final and cannot be reversed. We encourage users to check the titles and categories carefully before making a payment.</p>
+
+                <h4>2. Duplicate Payments</h4>
+                <p>If you have been charged twice for the same note due to a technical glitch, we will investigate the matter. If a duplicate payment is verified, we will initiate a refund for the extra amount. You must report such cases within 24 hours of the transaction to +91 8769089527.</p>
+
+                <h4>3. Refund Process and Timeline</h4>
+                <p>Approved refunds for duplicate payments will be processed within 7 to 10 working days. The amount will be credited back to the original payment source (Bank Account, UPI, or Card) used during the transaction.</p>
+
+                <h4>4. Order Cancellation</h4>
+                <p>Since the delivery of notes is automated and instant, an order cannot be cancelled once the payment process is completed. By clicking the "Buy" button and completing the payment, you agree to these cancellation terms.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            </div>
+
+            <!-- 4. CONTACT US PAGE -->
+            <div id="contactPage" class="page policy-page">
+                <h2>Contact Us</h2>
+                <p>For any inquiries, support, or grievances, please reach out to us. We are here to help you in your exam preparation journey.</p>
+                
+                <h4>Business Information</h4>
+                <p><strong>Business Name:</strong> Mnoj Nehra Notes Hub (Raj Exam Hub)</p>
+                <p><strong>Proprietor Name:</strong> Manoj Nehra</p>
+                <p><strong>Official Address:</strong> Ward No. 12, Tehsil - [Apni Tehsil], District - [Apna Zila], Rajasthan, Pincode - [3XXXXX]</p>
+                
+                <h4>Support Channels</h4>
+                <p><strong>Phone Support (WhatsApp):</strong> +91 8769089527</p>
+                <p><strong>Email Support:</strong> support@mnojnehra.com</p>
+                <p><strong>Support Hours:</strong> Monday to Saturday (10:00 AM to 6:00 PM IST). We generally respond within 24-48 business hours.</p>
+
+                <h4>Legal & Compliance</h4>
+                <p>If you have questions regarding our legal policies or your data, please contact the Grievance Officer at the phone number mentioned above. We appreciate your cooperation and trust in Mnoj Nehra Notes Hub.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            </div>
+
+            <!-- 5. TERMS & CONDITIONS -->
+            <div id="termsPage" class="page policy-page">
+                <h2>Terms and Conditions</h2>
+                <p>These terms and conditions govern your use of Raj Exam Hub. By accessing this website, you accept these terms in full.</p>
+                <h4>1. License and Copyright</h4>
+                <p>Unless otherwise stated, Manoj Nehra owns the intellectual property rights for all material on Raj Exam Hub. All intellectual property rights are reserved. You may view and padh (read) these notes for your own personal use subject to restrictions set in these terms and conditions.</p>
+                <h4>2. User Restrictions</h4>
+                <p>You must not: 1. Republish material from this website. 2. Sell, rent or sub-license material from the website. 3. Reproduce, duplicate or copy material from Raj Exam Hub. 4. Redistribute content from Raj Exam Hub (unless content is specifically made for redistribution).</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            </div>
+
         </div>
 
-        <!-- Navigation Dock -->
+        <!-- Navigation -->
         <div class="nav-dock">
             <div class="nav-link-3d active" onclick="showPage('homePage', this)"><i class="fas fa-home"></i><span>Home</span></div>
             <div class="nav-link-3d" onclick="showPage('purchasePage', this)"><i class="fas fa-book-open"></i><span>Library</span></div>
             <div class="nav-link-3d" onclick="showPage('profilePage', this)"><i class="fas fa-user-circle"></i><span>Profile</span></div>
-            <div class="nav-link-3d" onclick="showPage('legalPage', this)"><i class="fas fa-shield-alt"></i><span>Legal</span></div>
         </div>
     </div>
 
-    <!-- Secure Reader -->
+    <!-- Reader -->
     <div id="reader-overlay">
         <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
-            <span class="text-primary small fw-bold">SECURE READER</span>
-            <button class="btn btn-danger btn-sm" onclick="closeReader()">CLOSE X</button>
+            <span class="fw-bold text-primary small">SECURE READER</span>
+            <button class="btn btn-danger btn-sm rounded-pill px-4" onclick="closeReader()">CLOSE X</button>
         </div>
         <iframe id="pdfViewer"></iframe>
     </div>
 
-    <!-- Firebase -->
+    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -149,50 +248,40 @@
         const provider = new GoogleAuthProvider();
 
         window.login = () => { signInWithPopup(auth, provider).catch(e => alert(e.message)); };
+        window.logout = () => { signOut(auth).then(() => location.reload()); };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('u-name').innerText = user.displayName;
-                document.getElementById('u-email').innerText = user.email;
                 document.getElementById('u-img').src = user.photoURL;
                 renderNotes();
+            } else {
+                document.getElementById('auth-screen').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
             }
         });
-
-        // Razorpay Tester Login Logic
-        window.reviewerLogin = function() {
-            const user = document.getElementById('test-user').value;
-            const pass = document.getElementById('test-pass').value;
-            if(user === "test@mnojnehra.com" && pass === "razorpay_test_2025") {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                renderNotes();
-            } else {
-                alert("Invalid Credentials for Reviewer");
-            }
-        }
     </script>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         const notesData = [
-            { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", en: "Raj Police Master Notes", cat: "Police", price: 99, file: "raj. police.pdf" },
-            { id: 2, hi: "कोटा सिटी गाइड (Premium PDF)", en: "Kota City Master Guide", cat: "All", price: 49, file: "kota city.pdf" },
-            { id: 3, hi: "पटवारी मुख्य परीक्षा नोट्स", en: "Patwari Exam Special", cat: "Patwari", price: 149, file: "patwari.pdf" },
-            { id: 4, hi: "LDC / Clerk Grade-II Notes", en: "LDC Clerk Notes", cat: "LDC", price: 120, file: "ldc.pdf" },
-            { id: 5, hi: "RAS राजस्थान कला एवं संस्कृति", en: "RAS Art & Culture", cat: "RAS", price: 299, file: "ras_culture.pdf" }
+            { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", en: "Raj Police Notes", cat: "Police", price: 99, file: "raj. police.pdf" },
+            { id: 2, hi: "कोटा सिटी गाइड (Premium PDF)", en: "Kota City Guide", cat: "All", price: 49, file: "kota city.pdf" },
+            { id: 3, hi: "पटवारी मुख्य परीक्षा नोट्स", en: "Patwari Notes", cat: "Patwari", price: 149, file: "patwari.pdf" }
         ];
 
         function renderNotes() {
             let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
             notesData.forEach(n => {
                 let paid = localStorage.getItem(n.file);
-                grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between">
-                    <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat}</small></div>
-                    <div class="d-flex align-items-center">${!paid ? `<span class="fw-bold text-success me-2">₹${n.price}</span>` : ''}
-                    <button class="btn-buy" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button></div>
+                grid.innerHTML += `<div class="glass-card note-card mt-2">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 fs-3 text-primary"><i class="fas fa-file-pdf"></i></div>
+                        <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat}</small></div>
+                    </div>
+                    <button class="btn btn-primary btn-sm rounded-pill" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
                 </div>`;
             });
         }
@@ -200,8 +289,8 @@
         function showPage(pId, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pId).classList.add('active');
-            document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); 
-            el.classList.add('active');
+            if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
+            window.scrollTo(0,0);
         }
 
         function payNow(amt, file) {
