@@ -3,141 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Manoj Nehra | Premium Notes Hub</title>
+    <title>Raj Exam Hub | Premium 3D Hub</title>
     
-    <!-- Assets -->
+    <!-- Design Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
     <style>
-        :root { 
-            --primary: #6366f1; 
-            --secondary: #a855f7; 
-            --glass: rgba(255, 255, 255, 0.08); 
-            --dark-bg: #030712; 
-        }
+        :root { --primary: #6366f1; --secondary: #a855f7; --glass: rgba(255, 255, 255, 0.08); --dark-bg: #0f172a; }
+        body { background: radial-gradient(circle at top right, #1e1b4b, #0f172a); color: #f8fafc; font-family: 'Poppins', sans-serif; min-height: 100vh; padding-bottom: 120px; user-select: none; }
+        
+        .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: 0.4s; }
+        .note-card:hover { transform: translateY(-8px) scale(1.02); border-color: var(--primary); }
 
-        body { 
-            background: radial-gradient(circle at top right, #1e1b4b, #030712); 
-            color: #f8fafc; 
-            font-family: 'Poppins', sans-serif; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            padding-bottom: 120px; 
-            user-select: none; 
-        }
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 5000; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow-y: auto; padding: 20px; }
+        .btn-google { background: white; color: #333; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .reviewer-box { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%; max-width: 300px; }
+        .reviewer-box input { background: rgba(0,0,0,0.3); border: 1px solid #444; color: white; border-radius: 10px; padding: 10px; width: 100%; margin-bottom: 8px; font-size: 0.8rem; outline: none; }
 
-        /* --- 3D Logo --- */
-        .brand-logo { 
-            width: 100px; height: 100px; 
-            border-radius: 50%; 
-            border: 3px solid var(--primary); 
-            object-fit: cover; 
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.5);
-            background: #111;
-        }
-        .header-logo { width: 45px; height: 45px; border: 2px solid var(--primary); }
-
-        /* --- UI Elements --- */
-        .glass-card { 
-            background: var(--glass); 
-            backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 25px; 
-            padding: 22px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
-        .note-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--primary); }
-
-        /* --- Google Button --- */
-        .btn-google { 
-            background: white; 
-            color: #333; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 50px; 
-            font-weight: 700; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            gap: 12px; 
-            width: 100%;
-            max-width: 280px;
-            transition: 0.3s; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
-        }
-        .btn-google img { width: 22px; }
-
-        /* --- Auth Screen --- */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 9000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        .reviewer-login { margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 320px; }
-        .reviewer-login input { background: rgba(0,0,0,0.2); border: 1px solid #444; color: white; border-radius: 12px; padding: 10px; width: 100%; margin-bottom: 10px; outline: none; }
-
-        /* --- Navigation --- */
-        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 5000; box-shadow: 0 20px 60px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.1); }
+        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 550px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 4000; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
         .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; transition: 0.4s; }
-        .nav-link-3d.active { color: var(--primary); transform: translateY(-8px); text-shadow: 0 0 10px var(--primary); }
+        .nav-link-3d.active { color: var(--primary); transform: translateY(-5px); }
         .nav-link-3d i { font-size: 1.2rem; display: block; }
         .nav-link-3d span { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; }
 
+        .policy-container { background: rgba(0,0,0,0.3); border-radius: 25px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.8; color: #cbd5e1; }
+        .policy-container h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; }
+        .policy-container h4 { color: white; margin-top: 30px; border-left: 5px solid var(--primary); padding-left: 15px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 0 10px 10px 0; }
+        .policy-container p { font-size: 0.85rem; margin-bottom: 15px; text-align: justify; }
+
         .cat-scroll { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0 25px; scrollbar-width: none; }
-        .cat-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 22px; border-radius: 50px; white-space: nowrap; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
-        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); }
+        .cat-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 8px 20px; border-radius: 50px; white-space: nowrap; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+        .cat-pill.active { background: var(--primary); box-shadow: 0 5px 15px rgba(99, 102, 241, 0.5); }
 
-        .policy-container { background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.8; color: #cbd5e1; }
-        .policy-container h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; margin-bottom: 20px; }
-
-        .btn-buy { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; padding: 10px 22px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; transition: 0.2s; }
-        .price-text { color: #22c55e; font-weight: 800; font-size: 1.2rem; margin-right: 15px; }
-
+        #main-app { display: none; }
         .page { display: none; }
         .page.active { display: block; animation: fadeInUp 0.4s ease-out; }
         @keyframes fadeInUp { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+        
+        .footer-links { text-align: center; padding: 20px 0; opacity: 0.7; font-size: 0.75rem; border-top: 1px solid var(--glass); margin-top: 40px;}
+        .footer-links a { color: var(--primary); margin: 0 10px; text-decoration: none; cursor: pointer; font-weight: 600; }
 
+        .btn-buy { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; padding: 8px 18px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; }
         #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
-        iframe { width: 100%; height: 92vh; border: none; }
+        iframe { width: 100%; height: 93vh; border: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <!-- 1. LOGIN SCREEN -->
     <div id="auth-screen">
-        <div class="glass-card text-center animate__animated animate__fadeIn" style="max-width: 400px; width: 95%;">
-            <!-- Image Fix: Manoj.jpg -->
-            <img src="./manoj.jpg" class="brand-logo mb-3" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
-            <h2 class="fw-800">MANOJ NEHRA</h2>
-            <p class="small opacity-75 mb-4">Premium Rajasthan Exams Study Hub</p>
+        <div class="glass-card text-center" style="max-width: 400px; width: 95%;">
+            <div class="mb-3" style="font-size: 3rem; color: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
+            <h2 class="fw-800">RAJ HUB</h2>
+            <p class="small opacity-75 mb-4">Rajasthan Premium Notes Store</p>
             
-            <button class="btn-google mx-auto mb-4" onclick="login()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg">
+            <button class="btn-google mx-auto mb-3" onclick="login()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg" width="22">
                 Sign in with Google
             </button>
 
             <div class="reviewer-box">
+                <p class="x-small opacity-50 mb-2">Reviewer Access (Bypass Login)</p>
                 <input type="text" id="demo-user" placeholder="test@mnojnehra.com">
-                <input type="password" id="demo-pass" placeholder="Password">
-                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill" onclick="reviewerLogin()">Reviewer Login</button>
+                <input type="password" id="demo-pass" placeholder="razorpay_test_2025">
+                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill" onclick="reviewerLogin()">Demo Login</button>
             </div>
             
-            <div class="mt-4 opacity-50 x-small">
-                <a onclick="showPage('policyPage')" class="text-white mx-2">Privacy</a> | 
-                <a onclick="showPage('policyPage')" class="text-white mx-2">Terms</a> | 
-                <a onclick="showPage('policyPage')" class="text-white mx-2">Refunds</a>
+            <div class="footer-links mt-3" style="border:none;">
+                <a onclick="showPage('privacyPage')">Privacy</a> | <a onclick="showPage('termsPage')">Terms</a> | <a onclick="showPage('refundPage')">Refunds</a>
             </div>
         </div>
     </div>
 
     <!-- 2. MAIN APP -->
-    <div id="main-app" style="display:none;">
-        <header class="container pt-4 d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <img src="./manoj.jpg" class="brand-logo header-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
-                <h4 class="fw-bold mb-0">MANOJ <span class="text-primary">NEHRA</span></h4>
-            </div>
+    <div id="main-app">
+        <header class="container pt-4">
+            <h3 class="fw-bold mb-0">RAJ<span class="text-primary">HUB</span></h3>
         </header>
 
         <div class="container mt-2">
@@ -145,7 +88,7 @@
             <div id="homePage" class="page active">
                 <div class="py-4 text-center">
                     <h2 class="fw-800" id="u-welcome">नमस्ते</h2>
-                    <p class="text-info small">राजस्थान प्रतियोगी परीक्षा प्रीमियम नोट्स</p>
+                    <p class="text-info small">राजस्थान की सभी परीक्षाओं के प्रीमियम नोट्स</p>
                 </div>
 
                 <div class="cat-scroll">
@@ -153,9 +96,14 @@
                     <div class="cat-pill" onclick="filterCat('Police', this)">Raj Police</div>
                     <div class="cat-pill" onclick="filterCat('Patwari', this)">Patwari</div>
                     <div class="cat-pill" onclick="filterCat('LDC', this)">LDC / Clerk</div>
+                    <div class="cat-pill" onclick="filterCat('RAS', this)">RAS / PCS</div>
                 </div>
 
                 <div id="notesGrid"></div>
+
+                <div class="footer-links">
+                    <a onclick="showPage('termsPage')">Terms & Conditions</a> | <a onclick="showPage('privacyPage')">Privacy Policy</a> | <a onclick="showPage('shippingPage')">Shipping</a> | <a onclick="showPage('refundPage')">Refund Policy</a> | <a onclick="showPage('contactPage')">Contact Us</a>
+                </div>
             </div>
 
             <!-- Library -->
@@ -167,47 +115,68 @@
             <!-- Profile -->
             <div id="profilePage" class="page">
                 <div class="glass-card text-center mt-4">
-                    <img id="u-img" src="" class="rounded-circle mb-3 shadow" style="width: 80px; border: 3px solid var(--primary);">
+                    <img id="u-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle mb-3" style="width: 80px; border: 3px solid var(--primary);">
                     <h4 id="u-name">Student Account</h4>
-                    <p id="u-email" class="small opacity-75 mb-4"></p>
+                    <p id="u-email" class="text-info small mb-4"></p>
+                    <div class="text-start bg-dark bg-opacity-50 p-3 rounded-4 mb-4">
+                        <p class="small border-bottom pb-2 mb-2" onclick="showPage('contactPage')"><i class="fas fa-headset me-2"></i> Support & Contact</p>
+                        <p class="small border-bottom pb-2 mb-2" onclick="showPage('privacyPage')"><i class="fas fa-user-shield me-2"></i> Privacy Policy</p>
+                        <p class="small mb-0" onclick="showPage('refundPage')"><i class="fas fa-undo me-2"></i> Refund & Cancellation</p>
+                    </div>
                     <button class="btn btn-danger btn-sm rounded-pill w-100" onclick="logout()">Logout</button>
                 </div>
             </div>
 
-            <!-- Policies (1200 Words Detailed) -->
-            <div id="policyPage" class="page policy-container">
-                <h2>Legal Policies</h2>
-                <h4>1. Privacy Policy</h4>
-                <p>Welcome to Raj Exam Hub. We collect your Google profile information (Name, Email) to manage note access. Your payment data is securely processed by Razorpay. We keep your data safe and do not share it with third parties. Verification of accounts is done via registered contact +91 8769089527.</p>
-                <h4>2. Terms & Conditions</h4>
-                <p>By using this platform, you agree to access notes for personal use only. Reselling, recording, or distributing PDF content is a legal offense and will lead to an immediate ban.</p>
-                <h4>3. Refund & Shipping</h4>
-                <p>All products are digital. Notes are unlocked instantly in the 'Library' section after payment. We follow a STRICT NO-REFUND POLICY once digital content is accessed.</p>
-                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="showPage('homePage')">Back to Home</button>
+            <!-- Detailed Policy Pages -->
+            <div id="termsPage" class="page policy-container">
+                <h2>Terms and Conditions</h2>
+                <p>Welcome to Raj Exam Hub. These terms govern your use of this site. By accessing our materials, you agree that you will not copy, record, or distribute our PDF files. All content is for personal use only. Unauthorized sharing on Telegram or WhatsApp will result in a permanent ban.</p>
+                <h4>Intellectual Property</h4>
+                <p>All notes provided are original materials belonging to Mnoj Nehra. We hold exclusive copyright to all files.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="handleBack()">Back</button>
+            </div>
+
+            <div id="privacyPage" class="page policy-container">
+                <h2>Privacy Policy</h2>
+                <p>We value your data. We collect your name and email through Google Login to manage your library. Your phone number is used for Razorpay transaction processing. We do not sell your data to any third parties.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="handleBack()">Back</button>
+            </div>
+
+            <div id="refundPage" class="page policy-container">
+                <h2>Refund & Cancellation</h2>
+                <p>We sell non-tangible digital products. Once a note is unlocked, we follow a STRICT NO-REFUND POLICY. Please review the material before purchasing.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="handleBack()">Back</button>
+            </div>
+
+            <div id="shippingPage" class="page policy-container">
+                <h2>Shipping Policy</h2>
+                <p>Delivery is digital and instantaneous. No physical shipping is required. Your notes appear in the 'Library' section immediately after payment.</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="handleBack()">Back</button>
+            </div>
+
+            <div id="contactPage" class="page policy-container">
+                <h2>Contact Support</h2>
+                <p><strong>Phone/WhatsApp:</strong> +91 8769089527<br><strong>Email:</strong> support@mnojnehra.com<br><strong>Address:</strong> Rajasthan, India</p>
+                <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="handleBack()">Back</button>
             </div>
         </div>
 
-        <nav class="nav-dock">
+        <div class="nav-dock">
             <div class="nav-link-3d active" onclick="showPage('homePage', this)"><i class="fas fa-home"></i><span>Home</span></div>
             <div class="nav-link-3d" onclick="showPage('purchasePage', this)"><i class="fas fa-book-open"></i><span>Library</span></div>
             <div class="nav-link-3d" onclick="showPage('profilePage', this)"><i class="fas fa-user-circle"></i><span>Profile</span></div>
-            <div class="nav-link-3d" onclick="showPage('policyPage', this)"><i class="fas fa-shield-alt"></i><span>Legal</span></div>
-        </nav>
+        </div>
     </div>
 
-    <!-- Reader with Download Button -->
+    <!-- Reader -->
     <div id="reader-overlay">
-        <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
-            <span class="text-primary small fw-bold">SECURE VIEW</span>
-            <div class="d-flex gap-2">
-                <button class="btn btn-success btn-sm rounded-pill" id="down-btn"><i class="fas fa-download"></i> Download</button>
-                <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="closeReader()">Close X</button>
-            </div>
+        <div class="p-3 bg-dark d-flex justify-content-between">
+            <span class="fw-bold text-primary small">SECURE READER</span>
+            <button class="btn btn-danger btn-sm" onclick="closeReader()">Close X</button>
         </div>
         <iframe id="pdfViewer"></iframe>
     </div>
 
-    <!-- Firebase Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -229,47 +198,46 @@
         window.logout = () => signOut(auth).then(() => location.reload());
 
         onAuthStateChanged(auth, (user) => {
+            window.isUserLoggedIn = !!user;
             if (user) {
-                window.currentUser = user.email;
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('u-welcome').innerText = "नमस्ते, " + user.displayName.split(' ')[0];
                 document.getElementById('u-name').innerText = user.displayName;
-                document.getElementById('u-email').innerText = user.email;
                 document.getElementById('u-img').src = user.photoURL;
                 renderNotes();
+            } else {
+                document.getElementById('auth-screen').style.display = 'flex';
+                document.getElementById('main-app').style.display = 'none';
             }
         });
 
         window.reviewerLogin = () => {
             if(document.getElementById('demo-user').value === "test@mnojnehra.com" && document.getElementById('demo-pass').value === "razorpay_test_2025") {
-                window.currentUser = "test@reviewer.com";
+                window.isUserLoggedIn = true;
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 renderNotes();
-            } else { alert("Invalid Credentials"); }
+            } else { alert("Invalid Reviewer Credentials"); }
         }
     </script>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         const notesData = [
-            { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", cat: "Police", price: 99, file: "raj. police.pdf" },
-            { id: 2, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" }
+            { id: 1, hi: "राजस्थान पुलिस नोट्स", cat: "Police", price: 99, file: "raj. police.pdf" },
+            { id: 2, hi: "कोटा सिटी गाइड", cat: "All", price: 49, file: "kota city.pdf" },
+            { id: 3, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" }
         ];
-
-        function getPaidKey(f) { return window.currentUser + "_" + f; }
 
         function renderNotes(cat = 'All') {
             let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
             notesData.filter(n => cat === 'All' || n.cat === cat).forEach(n => {
-                let paid = localStorage.getItem(getPaidKey(n.file));
-                grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp">
-                    <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat} • 1 Year</small></div>
-                    <div class="d-flex align-items-center">
-                        ${!paid ? `<span class="price-text">₹${n.price}</span>` : ''}
-                        <button class="btn-buy" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
-                    </div>
+                let paid = localStorage.getItem(n.file);
+                grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between mt-2">
+                    <div><h6 class="mb-0 fw-bold">${n.hi}</h6><small class="text-info">${n.cat}</small></div>
+                    <div class="d-flex align-items-center">${!paid ? `<span class="fw-bold text-success me-2">₹${n.price}</span>` : ''}
+                    <button class="btn-buy" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button></div>
                 </div>`;
             });
         }
@@ -277,8 +245,8 @@
         function renderMyPurchases() {
             let grid = document.getElementById('myNotesGrid'); grid.innerHTML = '';
             notesData.forEach(n => {
-                if(localStorage.getItem(getPaidKey(n.file))) {
-                    grid.innerHTML += `<div class="glass-card d-flex justify-content-between">
+                if(localStorage.getItem(n.file)) {
+                    grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between mt-2">
                         <h6 class="mb-0 fw-bold">${n.hi}</h6><button class="btn-buy" onclick="openReader('${n.file}')">पढ़ें</button>
                     </div>`;
                 }
@@ -288,9 +256,19 @@
         function showPage(pId, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pId).classList.add('active');
-            if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
+            if(el) {
+                document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); 
+                el.classList.add('active');
+            }
             if(pId === 'purchasePage') renderMyPurchases();
             window.scrollTo(0,0);
+        }
+
+        function handleBack() {
+            if(!window.isUserLoggedIn) {
+                document.getElementById('main-app').style.display = 'none';
+                document.getElementById('auth-screen').style.display = 'flex';
+            } else { showPage('homePage', document.querySelectorAll('.nav-link-3d')[0]); }
         }
 
         function filterCat(cat, el) {
@@ -298,18 +276,29 @@
             el.classList.add('active'); renderNotes(cat);
         }
 
+        // --- PAYMENT FUNCTION ---
         function payNow(amt, file) {
-            var options = { "key": "rzp_test_RwizK12wU5cyN6", "amount": amt * 100, "name": "Manoj Nehra Hub",
-                "handler": function (res) { localStorage.setItem(getPaidKey(file), "paid"); location.reload(); }
+            var options = {
+                "key": "rzp_test_RwizK12wU5cyN6", // <-- YAHAN APNI KEY DALEIN (e.g. rzp_live_...)
+                "amount": amt * 100, 
+                "currency": "INR",
+                "name": "Raj Exam Hub",
+                "description": "Premium Access to " + file,
+                "image": "https://cdn-icons-png.flaticon.com/512/3306/3306611.png",
+                "handler": function (response) {
+                    localStorage.setItem(file, "paid"); 
+                    alert("भुगतान सफल! नोट्स अनलॉक हो गए हैं।");
+                    location.reload(); 
+                },
+                "theme": { "color": "#6366f1" }
             };
             new Razorpay(options).open();
         }
 
         function openReader(file) {
-            let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file);
             document.getElementById('reader-overlay').style.display = 'block';
+            let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file);
             document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
-            document.getElementById('down-btn').onclick = () => { window.open(pdfUrl, '_blank'); };
         }
         function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; }
     </script>
