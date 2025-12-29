@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Manoj Nehra | Premium Hub</title>
+    <title>Manoj Nehra | Premium Notes Hub</title>
     
     <!-- Design Assets -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
         :root { 
             --primary: #6366f1; 
             --secondary: #4f46e5; 
-            --glass: rgba(255, 255, 255, 0.1); 
+            --glass: rgba(255, 255, 255, 0.08); 
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
         }
 
@@ -25,7 +25,7 @@
             font-family: 'Poppins', sans-serif; 
             min-height: 100vh; 
             overflow-x: hidden; 
-            padding-bottom: 110px; 
+            padding-bottom: 120px; 
             user-select: none; 
         }
 
@@ -54,36 +54,52 @@
             width: 100%; max-width: 280px; transition: 0.3s; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); 
         }
-        .btn-google img { width: 22px; }
 
-        /* --- Navigation Dock --- */
+        /* --- Fixed Navigation Dock --- */
         .nav-dock { 
-            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); 
-            width: 90%; max-width: 450px; background: rgba(15, 23, 42, 0.95); 
-            backdrop-filter: blur(25px); border-radius: 40px; display: flex; 
-            justify-content: space-around; padding: 12px 5px; z-index: 5000; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.1); 
+            position: fixed; 
+            bottom: 20px; /* Fixed Height */
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 90%; 
+            max-width: 450px; 
+            background: rgba(15, 23, 42, 0.95); 
+            backdrop-filter: blur(25px); 
+            border-radius: 40px; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 12px 5px; 
+            z-index: 8000; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7); 
+            border: 1px solid rgba(255,255,255,0.15); 
         }
         .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; transition: 0.4s; }
         .nav-link-3d.active { color: var(--primary); transform: translateY(-8px) scale(1.1); text-shadow: 0 0 15px var(--primary); }
         .nav-link-3d i { font-size: 1.3rem; display: block; margin-bottom: 2px; }
 
         /* --- UI Elements --- */
-        .btn-premium { background: linear-gradient(135deg, var(--primary), #8b5cf6); border: none; color: white; padding: 10px 24px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; transition: 0.2s; }
+        .cat-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 10px 5px 25px 5px; scrollbar-width: none; }
+        .cat-scroll::-webkit-scrollbar { display: none; }
+        .cat-pill { 
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 10px 22px; border-radius: 50px; white-space: nowrap; 
+            font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.4s; 
+        }
+        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); transform: translateY(-3px); color: white; border-color: white; }
+
+        .btn-premium { background: linear-gradient(135deg, var(--primary), #8b5cf6); border: none; color: white; padding: 10px 24px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; transition: 0.2s; white-space: nowrap; }
         .btn-premium:active { transform: translateY(3px); box-shadow: none; }
-        .price-tag { color: #22c55e; font-weight: 800; font-size: 1.2rem; margin-right: 15px; }
+        .price-text { color: #22c55e; font-weight: 800; font-size: 1.2rem; margin-right: 15px; }
 
-        .cat-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 10px 0 20px; scrollbar-width: none; }
-        .cat-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 22px; border-radius: 50px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.4s; }
-        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); transform: translateY(-3px); }
-
-        .policy-container { background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.9; color: #cbd5e1; display: none; }
+        .policy-container { background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.9; color: #cbd5e1; display: none; margin-top: 20px; }
         .policy-container.active { display: block; animation: animate__animated animate__fadeInUp; }
+        .policy-container h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; margin-bottom: 20px; }
+
+        .page { display: none; }
+        .page.active { display: block; animation: animate__animated animate__fadeIn; }
 
         #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
         iframe { width: 100%; height: 92vh; border: none; }
-        .page { display: none; }
-        .page.active { display: block; animation: animate__animated animate__fadeIn; }
 
         .reviewer-box input { background: rgba(255,255,255,0.05); border: 1px solid #444; color: white; border-radius: 10px; padding: 10px; width: 100%; margin-bottom: 10px; font-size: 0.8rem; outline: none; }
     </style>
@@ -98,7 +114,7 @@
             <p class="small opacity-75 mb-4">Premium Rajasthan Exams Study Hub</p>
             
             <button class="btn-google mx-auto mb-4" onclick="login()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" width="20">
                 Sign in with Google
             </button>
 
@@ -127,13 +143,14 @@
         </header>
 
         <div class="container mt-2">
-            <!-- Home -->
+            <!-- Home Page -->
             <div id="homePage" class="page active">
                 <div class="py-4 text-center">
                     <h2 class="fw-800" id="u-welcome">नमस्ते</h2>
                     <p class="text-info small">राजस्थान प्रतियोगी परीक्षा प्रीमियम नोट्स</p>
                 </div>
 
+                <!-- Categories -->
                 <div class="cat-scroll animate__animated animate__fadeInLeft">
                     <div class="cat-pill active" onclick="filterCat('All', this)">सभी (All)</div>
                     <div class="cat-pill" onclick="filterCat('Police', this)">Raj Police</div>
@@ -144,13 +161,13 @@
                 <div id="notesGrid" class="mt-3"></div>
             </div>
 
-            <!-- Library -->
+            <!-- Library Page -->
             <div id="purchasePage" class="page">
                 <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2><p class="text-success small">खरीदे गए नोट्स यहाँ सुरक्षित हैं</p></div>
                 <div id="myNotesGrid"></div>
             </div>
 
-            <!-- Profile -->
+            <!-- Profile Page -->
             <div id="profilePage" class="page">
                 <div class="glass-card text-center mt-4 animate__animated animate__fadeInRight">
                     <img id="u-img" src="" class="rounded-circle mb-3 shadow" style="width: 85px; border: 3px solid var(--primary);">
@@ -166,54 +183,52 @@
                 </div>
             </div>
 
-            <!-- Policy Content (1200+ Words Structure) -->
+            <!-- Detailed Policy Content -->
             <div id="legalArea">
                 <div id="privacyPage" class="policy-container animate__animated animate__fadeIn">
                     <h2>Privacy Policy</h2>
-                    <p>Manoj Nehra Hub respects your privacy. We collect Google profile data (Name, Email) to manage your 1-year validity notes. Your payment is secured via Razorpay. We do not sell data to 3rd parties. [विस्तृत 1200 शब्दों की नीति...]</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back</button>
+                    <p>Mnoj Nehra Hub respects your privacy. [विस्तृत 1200 शब्दों की नीति...] हम आपका Google डेटा केवल सत्यापन के लिए लेते हैं। भुगतान Razorpay के माध्यम से सुरक्षित है। सहायता के लिए +91 8769089527 पर संपर्क करें।</p>
+                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
                 <div id="termsPage" class="policy-container animate__animated animate__fadeIn">
                     <h2>Terms & Conditions</h2>
-                    <p>Personal use only. Reselling notes is a legal offense. Your account is valid for 1 year from the date of purchase. [विस्तृत 1200 शब्दों की नीति...]</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back</button>
+                    <p>सामग्री का व्यक्तिगत उपयोग ही मान्य है। [विस्तृत 1200 शब्दों की नीति...] रीसेलिंग प्रतिबंधित है। (विस्तृत नियम यहाँ शामिल हैं...)</p>
+                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
                 <div id="refundPage" class="policy-container animate__animated animate__fadeIn">
                     <h2>Refund Policy</h2>
-                    <p>Digital goods are non-refundable. Once unlocked, the purchase is final. Duplicate payments will be verified and refunded within 7 days. [विस्तृत 1200 शब्दों की नीति...]</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back</button>
+                    <p>डिजिटल सामग्री के लिए रिफंड उपलब्ध नहीं है। [विस्तृत 1200 शब्दों की नीति...]</p>
+                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
                 <div id="contactPage" class="policy-container animate__animated animate__fadeIn">
                     <h2>Contact Us</h2>
-                    <p>Proprietor: Manoj Nehra<br>WhatsApp: +91 8769089527<br>Email: support@mnojnehra.com<br>Address: Ward 12, Rajasthan, India.</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back</button>
+                    <p>Proprietor: Manoj Nehra<br>WhatsApp: +91 8769089527<br>Email: support@mnojnehra.com<br>Address: Rajasthan, India.</p>
+                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
             </div>
         </div>
 
         <!-- Navigation Dock -->
-        <nav class="nav-dock animate__animated animate__slideInUp">
+        <nav class="nav-dock">
             <div class="nav-link-3d active" onclick="showPage('homePage', this)"><i class="fas fa-home"></i><span>Home</span></div>
             <div class="nav-link-3d" onclick="showPage('purchasePage', this)"><i class="fas fa-book-open"></i><span>Library</span></div>
             <div class="nav-link-3d" onclick="showPage('profilePage', this)"><i class="fas fa-user-circle"></i><span>Profile</span></div>
         </nav>
     </div>
 
-    <!-- Reader with Text-based Download Button -->
+    <!-- Reader Overlay -->
     <div id="reader-overlay">
         <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
             <span class="text-primary small fw-bold">SECURE HUB</span>
             <div class="d-flex gap-2">
-                <button class="btn btn-success btn-sm rounded-pill px-3 shadow" id="down-btn">
-                    <i class="fas fa-download me-1"></i> Download PDF
-                </button>
+                <button class="btn btn-success btn-sm rounded-pill px-3 shadow" id="down-btn"><i class="fas fa-download me-1"></i> Download PDF</button>
                 <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="closeReader()">Close X</button>
             </div>
         </div>
         <iframe id="pdfViewer"></iframe>
     </div>
 
-    <!-- Scripts -->
+    <!-- Firebase & Auth Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -244,7 +259,7 @@
                 document.getElementById('u-name').innerText = user.displayName;
                 document.getElementById('u-email').innerText = user.email;
                 document.getElementById('u-img').src = user.photoURL;
-                renderNotes();
+                renderNotes('All');
             } else {
                 document.getElementById('auth-screen').style.display = 'flex';
                 document.getElementById('main-app').style.display = 'none';
@@ -256,8 +271,8 @@
                 window.isLoggedIn = true; window.currentUser = "test@reviewer.com";
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
-                renderNotes();
-            } else { alert("Credentials Error"); }
+                renderNotes('All');
+            } else { alert("Invalid Credentials"); }
         }
     </script>
 
@@ -271,9 +286,20 @@
 
         function getPaidKey(f) { return (window.currentUser || "anon") + "_" + f; }
 
-        function renderNotes(cat = 'All') {
-            let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
-            notesData.filter(n => cat === 'All' || n.cat === cat).forEach((n, idx) => {
+        // --- FIXED: CATEGORY FILTER LOGIC ---
+        window.filterCat = function(cat, el) {
+            document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            renderNotes(cat);
+        };
+
+        window.renderNotes = function(cat = 'All') {
+            let grid = document.getElementById('notesGrid'); 
+            grid.innerHTML = '';
+            
+            const filtered = notesData.filter(n => cat === 'All' || n.cat === cat);
+            
+            filtered.forEach((n, idx) => {
                 let paid = localStorage.getItem(getPaidKey(n.file));
                 grid.innerHTML += `<div class="glass-card note-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp" style="animation-delay: ${idx * 0.1}s">
                     <div class="text-start">
@@ -281,70 +307,66 @@
                         <small class="text-info">${n.cat} • 1 Year Access</small>
                     </div>
                     <div class="d-flex align-items-center">
-                        ${!paid ? `<span class="price-tag">₹${n.price}</span>` : ''}
-                        <button class="btn-premium btn-sm" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
+                        ${!paid ? `<span class="price-text">₹${n.price}</span>` : ''}
+                        <button class="btn-premium btn-sm" onclick="${paid ? `openReader('${n.file}')` : `payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
                     </div>
                 </div>`;
             });
-        }
+        };
 
-        function renderMyPurchases() {
-            let grid = document.getElementById('myNotesGrid'); grid.innerHTML = '';
-            let has = false;
+        window.renderMyPurchases = function() {
+            let grid = document.getElementById('myNotesGrid'); 
+            grid.innerHTML = '';
+            let count = 0;
             notesData.forEach(n => {
                 if(localStorage.getItem(getPaidKey(n.file))) {
-                    has = true;
+                    count++;
                     grid.innerHTML += `<div class="glass-card note-card d-flex align-items-center justify-content-between">
                         <h6 class="mb-0 fw-bold">${n.hi}</h6>
                         <button class="btn-premium btn-sm" onclick="openReader('${n.file}')">पढ़ें</button>
                     </div>`;
                 }
             });
-            if(!has) grid.innerHTML = '<p class="text-center opacity-40 mt-5">कोई नोट्स नहीं मिले।</p>';
-        }
+            if(count === 0) grid.innerHTML = '<p class="text-center opacity-40 mt-5">कोई नोट्स नहीं मिले।</p>';
+        };
 
-        function showPage(pId, el) {
+        window.showPage = function(pId, el) {
             document.querySelectorAll('.page, .policy-container').forEach(p => p.classList.remove('active'));
             document.getElementById(pId).classList.add('active');
             if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
             if(pId === 'purchasePage') renderMyPurchases();
             window.scrollTo(0,0);
-        }
+        };
 
-        function showPolicy(pId) {
+        window.showPolicy = function(pId) {
             document.querySelectorAll('.page, .policy-container').forEach(p => p.classList.remove('active'));
             document.getElementById(pId).classList.add('active');
             window.scrollTo(0,0);
-        }
+        };
 
-        function closePolicy() {
+        window.closePolicy = function() {
             if(!window.isLoggedIn) { document.getElementById('auth-screen').style.display = 'flex'; document.getElementById('main-app').style.display = 'none'; }
             else { showPage('homePage', document.querySelectorAll('.nav-link-3d')[0]); }
-        }
+        };
 
-        function payNow(amt, file) {
+        window.payNow = function(amt, file) {
             var options = { "key": "rzp_test_RwizK12wU5cyN6", "amount": amt * 100, "name": "Manoj Nehra Hub",
                 "handler": function (res) { localStorage.setItem(getPaidKey(file), "paid"); location.reload(); }
             };
             new Razorpay(options).open();
-        }
+        };
 
-        function openReader(file) {
+        window.openReader = function(file) {
             let pdfUrl = window.location.href.split('index.html')[0] + encodeURIComponent(file);
             document.getElementById('reader-overlay').style.display = 'block';
             document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
             
-            // Direct Download Logic
             document.getElementById('down-btn').onclick = function() {
-                const link = document.createElement('a');
-                link.href = pdfUrl;
-                link.download = file; 
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                const link = document.createElement('a'); link.href = pdfUrl; link.download = file;
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
             };
-        }
-        function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; document.getElementById('pdfViewer').src = ""; }
+        };
+        window.closeReader = function() { document.getElementById('reader-overlay').style.display = 'none'; document.getElementById('pdfViewer').src = ""; };
     </script>
 </body>
 </html>
