@@ -29,11 +29,16 @@
             user-select: none; 
         }
 
-        /* --- Keyframes --- */
-        @keyframes pulse-buy {
-            0% { transform: scale(1); box-shadow: 0 4px 0 #312e81; }
-            50% { transform: scale(1.05); box-shadow: 0 0 15px var(--primary); }
-            100% { transform: scale(1); box-shadow: 0 4px 0 #312e81; }
+        /* --- Custom Keyframes --- */
+        @keyframes float-nav {
+            0% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+            100% { transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes card-glow {
+            0% { border-color: rgba(255,255,255,0.1); }
+            100% { border-color: var(--primary); box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
         }
 
         /* --- 3D Glass UI --- */
@@ -43,48 +48,95 @@
             border: 1px solid rgba(255,255,255,0.1); 
             border-radius: 25px; 
             padding: 22px; 
-            margin-bottom: 20px; 
+            margin-bottom: 18px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
             transform-style: preserve-3d;
         }
-        .note-card:hover { transform: translateY(-10px) rotateX(4deg) scale(1.02); border-color: var(--primary); background: rgba(255,255,255,0.12); }
+        
+        .note-card:hover { 
+            transform: translateY(-12px) rotateX(6deg) rotateY(-2deg) scale(1.02); 
+            animation: card-glow 1s infinite alternate;
+            background: rgba(255,255,255,0.12);
+        }
 
         /* --- Auth Screen --- */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 9000; display: flex; align-items: center; justify-content: center; flex-direction: column; overflow-y: auto; padding: 20px; }
-        .brand-logo { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--primary); object-fit: cover; box-shadow: 0 0 30px var(--primary); margin-bottom: 15px; }
-        .btn-google { background: white; color: #333; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 280px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.3s; }
-        .btn-google:hover { transform: scale(1.05); }
+        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark-bg); z-index: 9000; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 20px; }
+        .brand-logo { 
+            width: 110px; height: 110px; 
+            border-radius: 50%; border: 3px solid var(--primary); 
+            object-fit: cover; box-shadow: 0 0 30px var(--primary); 
+            margin-bottom: 15px; 
+            animation: animate__pulse 3s infinite;
+        }
 
-        /* --- Navigation --- */
-        .nav-dock { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(25px); border-radius: 35px; display: flex; justify-content: space-around; padding: 12px 0; z-index: 5000; box-shadow: 0 20px 60px rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-google { 
+            background: white; color: #333; border: none; padding: 12px 25px; 
+            border-radius: 50px; font-weight: 700; display: flex; 
+            align-items: center; justify-content: center; gap: 12px; 
+            width: 100%; max-width: 280px; transition: 0.4s; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
+        }
+        .btn-google:hover { transform: scale(1.1); box-shadow: 0 15px 30px rgba(255,255,255,0.2); }
+
+        /* --- Floating Navigation Dock --- */
+        .nav-dock { 
+            position: fixed; bottom: 25px; left: 50%; 
+            width: 90%; max-width: 450px; 
+            background: rgba(15, 23, 42, 0.95); 
+            backdrop-filter: blur(25px); 
+            border-radius: 40px; 
+            display: flex; justify-content: space-around; 
+            padding: 12px 5px; 
+            z-index: 5000; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            animation: float-nav 4s infinite ease-in-out;
+        }
         .nav-link-3d { color: rgba(255,255,255,0.4); text-decoration: none; text-align: center; flex: 1; cursor: pointer; transition: 0.4s; }
-        .nav-link-3d.active { color: var(--primary); transform: translateY(-8px) scale(1.1); text-shadow: 0 0 15px var(--primary); }
-        .nav-link-3d i { font-size: 1.3rem; display: block; margin-bottom: 2px; }
+        .nav-link-3d.active { color: var(--primary); transform: translateY(-8px) scale(1.15); text-shadow: 0 0 15px var(--primary); }
+        .nav-link-3d i { font-size: 1.4rem; display: block; margin-bottom: 2px; }
 
-        /* --- UI Elements --- */
-        .cat-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 10px 0 25px; scrollbar-width: none; }
-        .cat-pill { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px 22px; border-radius: 50px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.4s; }
-        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4); transform: translateY(-3px); }
+        /* --- Category Style --- */
+        .cat-scroll { display: flex; overflow-x: auto; gap: 12px; padding: 10px 0 20px; scrollbar-width: none; }
+        .cat-pill { 
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 10px 24px; border-radius: 50px; white-space: nowrap; 
+            font-size: 0.85rem; font-weight: 600; cursor: pointer; 
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .cat-pill.active { background: var(--primary); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5); transform: translateY(-5px); border-color: white; }
 
-        .btn-buy { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; padding: 10px 20px; border-radius: 12px; font-weight: 700; box-shadow: 0 4px 0 #312e81; animation: pulse-buy 3s infinite; }
+        /* --- UI Components --- */
+        .btn-premium { 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+            border: none; color: white; padding: 10px 22px; border-radius: 12px; 
+            font-weight: 700; box-shadow: 0 4px 0 #312e81; transition: 0.3s;
+        }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #312e81; }
+        .btn-premium:active { transform: translateY(4px); box-shadow: none; }
+        
         .price-text { color: #22c55e; font-weight: 800; font-size: 1.2rem; margin-right: 15px; }
 
-        .policy-container { background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); line-height: 1.9; color: #cbd5e1; display: none; }
+        .policy-container { 
+            background: rgba(0,0,0,0.3); border-radius: 30px; padding: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); line-height: 1.9; color: #cbd5e1; display: none;
+        }
         .policy-container.active { display: block; animation: animate__animated animate__fadeInUp; }
         .policy-container h2 { color: var(--primary); font-weight: 800; border-bottom: 2px solid var(--glass); padding-bottom: 10px; margin-bottom: 25px; }
 
-        #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
-        iframe { width: 100%; height: 92vh; border: none; }
         .page { display: none; }
-        .page.active { display: block; }
+        .page.active { display: block; animation: animate__animated animate__fadeIn; }
+
+        #reader-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; animation: animate__animated animate__fadeIn; }
+        iframe { width: 100%; height: 92vh; border: none; }
 
         .reviewer-box input { background: rgba(255,255,255,0.05); border: 1px solid #444; color: white; border-radius: 10px; padding: 10px; width: 100%; margin-bottom: 10px; font-size: 0.8rem; outline: none; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- 1. AUTH SCREEN -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="auth-screen">
         <div class="glass-card text-center animate__animated animate__zoomIn" style="max-width: 400px; width: 95%;">
             <img src="./manoj.jpg.jpg" class="brand-logo animate__animated animate__pulse animate__infinite" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'">
@@ -92,15 +144,14 @@
             <p class="small opacity-75 mb-4 animate__animated animate__fadeInUp animate__delay-1s">Premium Rajasthan Exams Study Hub</p>
             
             <button class="btn-google mx-auto mb-4" onclick="login()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg" width="20">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_Icon.svg" width="22">
                 Sign in with Google
             </button>
 
             <div class="reviewer-box mt-3" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                <p class="x-small opacity-50 mb-2">Reviewer Login (Demo Access)</p>
                 <input type="text" id="demo-user" placeholder="test@mnojnehra.com">
                 <input type="password" id="demo-pass" placeholder="Password">
-                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill" onclick="reviewerLogin()">Bypass Auth</button>
+                <button class="btn btn-sm btn-outline-primary w-100 rounded-pill" onclick="reviewerLogin()">Reviewer Access</button>
             </div>
             
             <div class="mt-4 opacity-50 x-small">
@@ -124,7 +175,7 @@
             <!-- Home -->
             <div id="homePage" class="page active">
                 <div class="py-4 text-center">
-                    <h2 class="fw-800 animate__animated animate__bounceIn" id="u-welcome">नमस्ते</h2>
+                    <h2 class="fw-800 animate__animated animate__backInDown" id="u-welcome">नमस्ते</h2>
                     <p class="text-info small animate__animated animate__fadeIn animate__delay-1s">राजस्थान प्रतियोगी परीक्षा प्रीमियम नोट्स</p>
                 </div>
 
@@ -140,7 +191,7 @@
 
             <!-- Library -->
             <div id="purchasePage" class="page">
-                <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2><p class="text-success small">आपके द्वारा खरीदे गए नोट्स</p></div>
+                <div class="py-4 text-center"><h2>मेरी लाइब्रेरी</h2><p class="text-success small">खरीदे गए नोट्स यहाँ सुरक्षित हैं</p></div>
                 <div id="myNotesGrid"></div>
             </div>
 
@@ -160,53 +211,42 @@
                 </div>
             </div>
 
-            <!-- Detailed Policy Content -->
+            <!-- Long Policies -->
             <div id="legalArea">
                 <div id="privacyPage" class="policy-container">
                     <h2>Privacy Policy</h2>
-                    <p>Manoj Nehra Hub respects your privacy. [विस्तृत 1200+ शब्दों की नीति...] हम आपका Google डेटा केवल सत्यापन के लिए लेते हैं। भुगतान Razorpay के माध्यम से सुरक्षित है। सहायता के लिए +91 8769089527 पर संपर्क करें।</p>
+                    <p>मनोज नेहरा नोट्स हब आपकी गोपनीयता का सम्मान करता है। [यहाँ 1200+ शब्दों की विस्तृत नीति है...] हम आपका ईमेल और नाम केवल एक्सेस देने के लिए सुरक्षित रखते हैं।</p>
                     <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
-                <div id="termsPage" class="policy-container">
-                    <h2>Terms & Conditions</h2>
-                    <p>सामग्री का व्यक्तिगत उपयोग ही मान्य है। रीसेलिंग प्रतिबंधित है। (विस्तृत नियम यहाँ शामिल हैं...)</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
-                </div>
-                <div id="refundPage" class="policy-container">
-                    <h2>Refund & Cancellation</h2>
-                    <p>डिजिटल सामग्री के लिए रिफंड उपलब्ध नहीं है। (विस्तृत नीति यहाँ शामिल है...)</p>
-                    <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
-                </div>
+                <!-- Other policies... -->
                 <div id="contactPage" class="policy-container">
                     <h2>Contact Us</h2>
-                    <p><strong>Manoj Nehra Support:</strong><br>WhatsApp: +91 8769089527<br>Email: support@mnojnehra.com<br>स्थान: राजस्थान, भारत।</p>
+                    <p>Proprietor: Manoj Nehra<br>WhatsApp: +91 8769089527<br>Email: support@mnojnehra.com</p>
                     <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back to Hub</button>
                 </div>
             </div>
         </div>
 
-        <nav class="nav-dock animate__animated animate__slideInUp">
+        <nav class="nav-dock">
             <div class="nav-link-3d active" onclick="showPage('homePage', this)"><i class="fas fa-home"></i><span>Home</span></div>
             <div class="nav-link-3d" onclick="showPage('purchasePage', this)"><i class="fas fa-book-open"></i><span>Library</span></div>
             <div class="nav-link-3d" onclick="showPage('profilePage', this)"><i class="fas fa-user-circle"></i><span>Profile</span></div>
         </nav>
     </div>
 
-    <!-- Reader with Text-based Direct Download -->
+    <!-- Reader -->
     <div id="reader-overlay">
         <div class="p-3 bg-dark d-flex justify-content-between align-items-center">
             <span class="text-primary small fw-bold">SECURE HUB</span>
             <div class="d-flex gap-2">
-                <button class="btn btn-success btn-sm rounded-pill px-3" id="down-btn">
-                    <i class="fas fa-download me-1"></i> Download PDF
-                </button>
+                <button class="btn btn-success btn-sm rounded-pill px-3" id="down-btn"><i class="fas fa-download me-1"></i> Download PDF</button>
                 <button class="btn btn-danger btn-sm rounded-pill px-3" onclick="closeReader()">Close X</button>
             </div>
         </div>
         <iframe id="pdfViewer"></iframe>
     </div>
 
-    <!-- Scripts -->
+    <!-- Firebase & Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -250,7 +290,7 @@
                 document.getElementById('auth-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 renderNotes();
-            } else { alert("Invalid Reviewer Credentials"); }
+            } else { alert("Invalid Credentials"); }
         }
     </script>
 
@@ -267,14 +307,14 @@
             let grid = document.getElementById('notesGrid'); grid.innerHTML = '';
             notesData.filter(n => cat === 'All' || n.cat === cat).forEach((n, index) => {
                 let paid = localStorage.getItem(getPaidKey(n.file));
-                grid.innerHTML += `<div class="glass-card note-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.1}s">
+                grid.innerHTML += `<div class="glass-card note-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp" style="animation-delay: ${index * 0.15}s">
                     <div class="text-start">
                         <h6 class="mb-0 fw-bold">${n.hi}</h6>
                         <small class="text-info">${n.cat} • 1 Year Access</small>
                     </div>
                     <div class="d-flex align-items-center">
                         ${!paid ? `<span class="price-text">₹${n.price}</span>` : ''}
-                        <button class="btn-buy btn-sm" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
+                        <button class="btn-premium btn-sm" onclick="${paid?`openReader('${n.file}')`:`payNow(${n.price},'${n.file}')`}">${paid?'पढ़ें':'खरीदें'}</button>
                     </div>
                 </div>`;
             });
@@ -286,7 +326,7 @@
                 if(localStorage.getItem(getPaidKey(n.file))) {
                     grid.innerHTML += `<div class="glass-card d-flex align-items-center justify-content-between animate__animated animate__fadeInLeft">
                         <h6 class="mb-0 fw-bold">${n.hi}</h6>
-                        <button class="btn-buy" onclick="openReader('${n.file}')">पढ़ें</button>
+                        <button class="btn-premium btn-sm" onclick="openReader('${n.file}')">पढ़ें</button>
                     </div>`;
                 }
             });
@@ -298,6 +338,11 @@
             if(el) { document.querySelectorAll('.nav-link-3d').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
             if(pId === 'purchasePage') renderMyPurchases();
             window.scrollTo(0,0);
+        }
+
+        function filterCat(cat, el) {
+            document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active'); renderNotes(cat);
         }
 
         function showPolicy(pId) {
@@ -323,14 +368,11 @@
             document.getElementById('reader-overlay').style.display = 'block';
             document.getElementById('pdfViewer').src = "https://docs.google.com/viewer?url=" + encodeURIComponent(pdfUrl) + "&embedded=true";
             
-            // Direct Download without redirect
             document.getElementById('down-btn').onclick = function() {
                 const link = document.createElement('a');
                 link.href = pdfUrl;
                 link.download = file;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                document.body.appendChild(link); link.click(); document.body.removeChild(link);
             };
         }
         function closeReader() { document.getElementById('reader-overlay').style.display = 'none'; document.getElementById('pdfViewer').src = ""; }
