@@ -113,17 +113,16 @@
 
             <div id="profilePage" class="page">
                 <div class="glass-card text-center mt-4 animate__animated animate__fadeInRight">
-                    <img id="u-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="rounded-circle mb-3 shadow" style="width: 80px; border: 3px solid var(--primary);">
+                    <img id="u-img" src="" class="rounded-circle mb-3 shadow" style="width: 80px; border: 3px solid var(--primary);">
                     <h4 id="u-name">Student Account</h4>
                     <button class="btn btn-danger btn-sm rounded-pill w-100 py-2 mt-4" onclick="logout()">Logout Account</button>
                 </div>
             </div>
 
-            <!-- Policies -->
             <div id="legalArea">
                 <div id="privacyPage" class="policy-container animate__animated animate__fadeIn">
                     <h2>Privacy Policy</h2>
-                    <p>हम आपकी गोपनीयता का पूरा सम्मान करते हैं। [1200+ शब्दों की विस्तृत नीति...]</p>
+                    <p>हम आपकी गोपनीयता का पूरा सम्मान करते हैं। [विस्तृत नीति...]</p>
                     <button class="btn btn-primary w-100 rounded-pill mt-4" onclick="closePolicy()">Back</button>
                 </div>
             </div>
@@ -171,24 +170,26 @@
         window.login = () => signInWithPopup(auth, provider);
         window.logout = () => signOut(auth).then(() => location.reload());
 
-        // Standard Notes Data
-        window.notesData = [
-            { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", cat: "Police", price: 99, file: "raj_police.pdf" },
-            { id: 2, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" },
-            { id: 3, hi: "LDC भर्ती - सामान्य ज्ञान", cat: "LDC", price: 120, file: "ldc.pdf" }
-        ];
-
+        // Global function to sync and render
         window.updateUI = async (cat = 'All') => {
-            if(!auth.currentUser) return;
             const grid = document.getElementById('notesGrid');
             const myGrid = document.getElementById('myNotesGrid');
-            grid.innerHTML = '<p class="text-center">Loading Notes...</p>';
+            
+            const notesData = [
+                { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", cat: "Police", price: 99, file: "raj. police.pdf" },
+                { id: 2, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" },
+                { id: 3, hi: "LDC भर्ती - सामान्य ज्ञान", cat: "LDC", price: 120, file: "ldc.pdf" }
+            ];
 
-            const snapshot = await get(child(ref(db), `users/${auth.currentUser.uid}/purchases`));
-            const purchases = snapshot.exists() ? snapshot.val() : {};
+            let purchases = {};
+            if(auth.currentUser) {
+                const snapshot = await get(child(ref(db), `users/${auth.currentUser.uid}/purchases`));
+                purchases = snapshot.exists() ? snapshot.val() : {};
+            }
 
+            // Render Home Grid
             let homeHtml = '';
-            const filtered = window.notesData.filter(n => cat === 'All' || n.cat === cat);
+            const filtered = notesData.filter(n => cat === 'All' || n.cat === cat);
             filtered.forEach(n => {
                 const isPaid = purchases[n.file.replace(/\./g, '_')]?.paid;
                 homeHtml += `<div class="glass-card note-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp">
@@ -204,8 +205,9 @@
             });
             grid.innerHTML = homeHtml;
 
+            // Render Library
             let libHtml = '';
-            window.notesData.forEach(n => {
+            notesData.forEach(n => {
                 if(purchases[n.file.replace(/\./g, '_')]?.paid) {
                     libHtml += `<div class="glass-card note-card d-flex align-items-center justify-content-between">
                         <h6 class="mb-0 fw-bold">${n.hi}</h6>
@@ -227,20 +229,32 @@
             }
         });
 
-        // Razorpay Payment Handler
+        // FIXED REVIEWER LOGIN CREDENTIALS
+        window.reviewerLogin = () => {
+            const email = document.getElementById('demo-user').value;
+            const pass = document.getElementById('demo-pass').value;
+            
+            if(email === "test@mnojnehra.com" && pass === "razorpay_text_2025") {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('u-welcome').innerText = "नमस्ते, Staff";
+                document.getElementById('u-img').src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+                document.getElementById('u-name').innerText = "Reviewer Account";
+                window.updateUI(); // Load notes for review
+            } else {
+                alert("Incorrect Email or Password");
+            }
+        }
+
         window.payNow = function(amt, file) {
-            var options = { 
-                "key": "rzp_test_RwizK12wU5cyN6", 
-                "amount": amt * 100, 
-                "name": "Manoj Nehra Hub",
-                "description": "Premium Study Notes",
+            var options = { "key": "rzp_test_RwizK12wU5cyN6", "amount": amt * 100, "name": "Manoj Nehra Hub",
                 "handler": async function (res) { 
                     if(auth.currentUser) {
                         const expiry = new Date().getTime() + (365 * 24 * 60 * 60 * 1000);
                         await set(ref(db, 'users/' + auth.currentUser.uid + '/purchases/' + file.replace(/\./g, '_')), { paid: true, expiry: expiry });
                         location.reload(); 
                     } else {
-                        alert("Review Mode: Payment Success (Demo Only)");
+                        alert("Reviewer Payment Success Simulation");
                     }
                 }
             };
@@ -250,43 +264,7 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        // FIXED REVIEWER LOGIN FOR RAZORPAY APPROVAL
-        window.reviewerLogin = () => {
-            const user = document.getElementById('demo-user').value;
-            const pass = document.getElementById('demo-pass').value;
-
-            if(user === "test@mnojnehra.com" && pass === "razorpay_text_2025") {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                document.getElementById('u-welcome').innerText = "नमस्ते, Reviewer";
-                
-                // Show notes with "Buy" buttons for reviewer
-                const grid = document.getElementById('notesGrid');
-                let homeHtml = '';
-                const demoNotes = [
-                    { id: 1, hi: "राजस्थान पुलिस - लक्ष्य नोट्स", cat: "Police", price: 99, file: "raj_police.pdf" },
-                    { id: 2, hi: "पटवारी मुख्य परीक्षा नोट्स", cat: "Patwari", price: 149, file: "patwari.pdf" },
-                    { id: 3, hi: "LDC भर्ती - सामान्य ज्ञान", cat: "LDC", price: 120, file: "ldc.pdf" }
-                ];
-
-                demoNotes.forEach(n => {
-                    homeHtml += `<div class="glass-card note-card d-flex align-items-center justify-content-between animate__animated animate__fadeInUp">
-                        <div class="text-start">
-                            <h6 class="mb-0 fw-bold">${n.hi}</h6>
-                            <small class="text-info">${n.cat} • Demo Access</small>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <span class="price-text">₹${n.price}</span>
-                            <button class="btn-premium btn-sm" onclick="payNow(${n.price},'${n.file}')">खरीदें</button>
-                        </div>
-                    </div>`;
-                });
-                grid.innerHTML = homeHtml;
-            } else {
-                alert("गलत ईमेल या पासवर्ड!");
-            }
-        }
-
+        // FIXED CATEGORY FILTERING
         window.filterCat = (cat, el) => {
             document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
